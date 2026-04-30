@@ -25,6 +25,9 @@ We have been influenced and are being transformed by the profound wisdom of indi
 
 Read "Sand Talk" by Tyson Yunkaporta very slowly. Yarn about what you learn at each stage. Make artefacts of your shared understanding. Use different minds to explore lore, country, relationships, memberships, time, space, correlation, scale, possibilities and potentials. Make changes to self. Seek diverse relationships, repeat.
 
+Explore the diffo-dev me-mind Lore livebook
+[![Run in Livebook](https://livebook.dev/badge/v1/blue.svg)](https://livebook.dev/run?url=https%3A%2F%2Fgithub.com%2Fdiffo-dev%2F.github%2Fblob%2Fdev%2Flore%2Fme_mind.livemd)
+
 Connect with us if strangely attracted.
 
 ## Licenses

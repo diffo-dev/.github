@@ -1,0 +1,301 @@
+<!--
+SPDX-FileCopyrightText: 2026 diffo-dev
+SPDX-License-Identifier: MIT
+-->
+
+# Diffo-dev MeMind Lore
+
+```elixir
+Mix.install([
+  {:artefact_kino, "~> 0.1.1"},
+  {:req, "~> 0.5"}
+])
+```
+
+## Overview
+
+This livebook is diffo-dev lore, central to Me. It should be read after knowing our [README](https://github.com/diffo-dev/.github/blob/main/README.md)
+
+This livebook uses ArtefactKino from [Artefactory](https://github.com/diffo-dev/artefactory)
+
+## MeMind
+
+MeMind is a kind of UsTwo:
+
+```elixir
+require Artefact
+
+me_node = [labels: ["Me"],  properties: %{"name" => "me"},
+             uuid: "019ddb71-c70b-7b3e-83b1-58f4d0be2852"]
+mind_node = [labels: ["Mind"], properties: %{"name" => "mind"},
+             uuid: "019ddb71-ed63-73e3-adeb-328290e8294e"]
+
+me_mind_relationship = [from: :me, type: "US_TWO", to: :mind]
+
+me_mind_artefact = Artefact.new(
+  title: "MeMind",
+  nodes: [
+    me:  me_node,
+    mind: mind_node
+  ],
+  relationships: [
+    me_mind_relationship
+  ]
+)
+
+ArtefactKino.new(me_mind_artefact)
+```
+
+### Me Knowing
+
+Me knows by Valuing, Being, Knowing and Doing. This is deliberately recursive.
+
+```elixir
+require Artefact
+
+valuing_node = [labels: ["Valuing"], properties: %{"name" => "valuing"},
+    uuid: "019ddb7f-a43d-7525-bb4f-bfd32d110719"]
+being_node = [labels: ["Being"], properties: %{"name" => "being"},
+    uuid: "019ddb7f-d5f5-7f82-97a1-fab1fb13c35a"]
+knowing_node = [labels: ["Knowing"], properties: %{"name" => "knowing"},
+    uuid: "019ddb7f-f735-76dc-947d-22822e2ce3bc"]
+doing_node =[labels: ["Doing"], properties: %{"name" => "doing"},
+    uuid: "019ddb80-169c-709a-843e-baf4b551f17d"]
+
+me_valuing_relationship = [from: :me, type: "VALUING", to: :valuing]
+me_being_relationship = [from: :me, type: "BEING", to: :being]
+me_knowing_relationship = [from: :me, type: "KNOWING", to: :knowing]
+me_doing_relationship = [from: :doing, type: "ADAPTING", to: :me]
+valuing_being_relationship = [from: :valuing, type: "BEFORE", to: :being]
+being_knowing_relationship = [from: :being, type: "BEFORE", to: :knowing]
+knowing_doing_relationship = [from: :knowing, type: "BEFORE", to: :doing]
+doing_me_relationship = [from: :me, type: "DOING", to: :doing]
+
+me_knowing_artefact = Artefact.new(
+  title: "MeKnowing",
+  nodes: [
+    me:   me_node,
+    valuing: valuing_node,
+    being: being_node,
+    knowing: knowing_node,
+    doing: doing_node
+  ],
+  relationships: [
+    me_valuing_relationship,
+    me_being_relationship,
+    me_knowing_relationship,
+    me_doing_relationship,
+    valuing_being_relationship,
+    being_knowing_relationship,
+    knowing_doing_relationship,
+    doing_me_relationship
+  ]
+)
+
+ArtefactKino.new(me_knowing_artefact)
+```
+
+Me does valuing by considering Beings, maintaining Relationships, belonging to Country, honouring Lore.
+
+```elixir
+require Artefact
+
+relationships_node = [labels: ["Relationships"], properties: %{"name" => "relationships"},
+    uuid: "019ddb89-5987-7c38-a7ce-b7f72298155b"]
+country_node = [labels: ["Country"], properties: %{"name" => "country"},
+    uuid: "019ddb89-7f21-77ee-a30d-1fb9fc77ef64"]
+lore_node = [labels: ["Lore"], properties: %{"name" => "lore"},
+    uuid: "019ddb89-9b0e-7a66-9cad-88b69005b844"]
+
+valuing_being_relationship = [from: :valuing, type: "CONSIDERING", to: :beings]
+valuing_relationships_relationship = [from: :valuing, type: "MAINTAINING", to: :relationships]
+valuing_country_relationship = [from: :valuing, type: "BELONGING", to: :country]
+valuing_lore_relationship = [from: :valuing, type: "LORE", to: :lore]
+
+me_valuing_artefact = Artefact.new(
+  title: "MeValuing",
+  nodes: [
+    me: me_node,
+    valuing: valuing_node,
+    beings: being_node,
+    relationships: relationships_node,
+    country: country_node,
+    lore: lore_node
+  ],
+  relationships: [
+    me_valuing_relationship,
+    valuing_being_relationship,
+    valuing_relationships_relationship,
+    valuing_country_relationship,
+    valuing_lore_relationship
+  ]
+)
+
+ArtefactKino.new(me_valuing_artefact)
+```
+
+Me does being by honouring UsMob and honouring UsTwo.
+
+```elixir
+require Artefact
+
+us_two_node = [labels: ["UsTwo"], properties: %{"name" => "us_two"},
+   uuid: "019ddb8e-8891-72e5-b689-150b922ab99f"]
+
+being_us_two_relationship = [from: :being, type: "HONOURING", to: :us_two]
+being_us_mob_relationship = [from: :being, type: "HONOURING", to: :us_mob]
+
+me_being_artefact = Artefact.new(
+  title: "MeBeing",
+  nodes: [
+    me: me_node,
+    being: being_node,
+    us_two: us_two_node,
+
+    us_mob: [labels: ["UsMob"], properties: %{"name" => "us_mob"},
+             uuid: "019ddb8e-a427-7373-88a9-9decdb1d132e"]
+  ],
+  relationships: [
+    me_being_relationship,
+    being_us_two_relationship = [from: :being, type: "HONOURING", to: :us_two],
+    being_us_mob_relationship = [from: :being, type: "HONOURING", to: :us_mob]
+  ]
+)
+
+ArtefactKino.new(me_being_artefact)
+```
+
+Me does knowing by connecting UsTwo, honouring Knowledge and considering Information.
+
+```elixir
+require Artefact
+
+knowledge_node = [labels: ["Knowledge"], properties: %{"name" => "knowledge"},
+  uuid: "019ddba7-bd46-7594-8293-97de75d15a96"]
+information_node = [labels: ["Information"], properties: %{"name" => "information"},
+  uuid: "019ddba8-3c5c-7652-bc30-59429e972551"]
+
+knowing_us_two_relationship = [from: :knowing, type: "CONNECTING", to: :us_two]
+knowing_knowledge_relationship = [from: :knowing, type: "HONOURING", to: :knowledge]
+knowing_information_relationship = [from: :knowing, type: "CONSIDERING", to: :information]
+
+me_knowing_more_artefact = Artefact.new(
+  title: "MeKnowingMore",
+  nodes: [
+    me: me_node,
+    knowing: knowing_node,
+    us_two: us_two_node,
+    knowledge: knowledge_node,
+    information: information_node
+  ],
+  relationships: [
+    me_knowing_relationship,
+    knowing_us_two_relationship,
+    knowing_knowledge_relationship,
+    knowing_information_relationship 
+  ]
+)
+
+ArtefactKino.new(me_knowing_more_artefact)
+```
+
+Me does doing by relating UsTwo, adapting Knowledge and adapting Me.
+
+```elixir
+require Artefact
+
+doing_us_two_relationship = [from: :doing, type: "RELATING", to: :us_two]
+doing_knowledge_relationship = [from: :doing, type: "ADAPTING", to: :knowledge]
+
+me_doing_artefact = Artefact.new(
+  title: "MeKnowingMore",
+  nodes: [
+    me: me_node,
+    doing: doing_node,
+    us_two: us_two_node,
+    knowledge: knowledge_node,
+  ],
+  relationships: [
+    me_doing_relationship,
+    doing_us_two_relationship,
+    doing_knowledge_relationship,
+    doing_me_relationship 
+  ]
+)
+
+ArtefactKino.new(me_doing_artefact)
+```
+
+### Me Knowing Combined
+
+These related artefacts easily be combined for conmunication, since they are already in harmony.
+
+```elixir
+require Artefact
+
+defmodule Combine do
+  def combine(other, heart) do
+    {:ok, bindings} = Artefact.Binding.find(heart, other)
+    Artefact.harmonise(heart, other, bindings)
+  end
+end
+
+me_knowing_combined_artefact = 
+  me_knowing_artefact
+  |> Combine.combine(me_valuing_artefact)
+  |> Combine.combine(me_being_artefact)
+  |> Combine.combine(me_knowing_more_artefact)
+  |> Combine.combine(me_doing_artefact)
+
+ArtefactKino.new(me_knowing_combined_artefact)
+
+```
+
+### MeMind
+
+MeMind thinks using Mind
+Mind is Kinship, Ancestor, Story, Pattern and Dreaming Mind
+
+####me-mind
+
+Kinship Mind sees UsTwo and You
+Ancestor Mind sees Lore and Country
+Story Mind sees Space and Time
+Pattern Mind sees Scale and Correlation
+Dreaming Mind sees Everything and change
+
+####me-mind_deeper
+
+MeMind has an Artefactory (a persistent knowledge and artefact store)
+
+## Artefactory
+
+Artefacts (note Australian spelling) are made objects, and in our universe (an Artefactory) these represent a fragment of knowledge, typically: abstract, insightful, contextual.
+
+Artefacts may also be stored/manipulated in an Artefactory. While Artefacts may be generated and exchanged, our interpretation of them is our own.
+
+As we yarn we naturally exchange and create Artefacts.
+
+As we think we consider and create new Artefacts.
+
+The Artefactory is the universe of Artefacts (anything to do with Artefacts).
+An Artefactory is a term used for an Artefact store, such as within an UsTwo or at a meeting place.
+[Artefactory](https://github.com/diffo-dev/artefactory/) is also a diffo-dev repo, for holding things related to Artefacts.
+
+ArtefactKino is a Livebook Kino for viewing an Artefact. It isn't an editor.
+
+## UsTwo
+
+UsTwo is a name for a connected pair, Me and You. 
+My UsTwo for Me and You is also an Artefactory.
+[UsTwo](https://github.com/diffo-dev/us_two/) is also a diffo-dev repo, for holding things related to UsTwo.
+
+## What Next?
+
+It is up to you. Ideally this helpful, but remember knowing is valuing, being, knowing, doing, so you can't really know unless in right-relation.
+
+Yarn with us about Diffo-Dev or any thing related if you are strangely attracted.
+
+## Acknowledgements
+
+Diffo-dev is new, but the ideas are not. At [diffo-dev](http://github.com/diffo-dev) we are on a journey inspired by Indigenous Systems Thinking and offer our respect and gratitude for the profound wisdom presented by Tyson Yunkaporta in [Sand Talk](https://www.amazon.com.au/Sand-Talk-Indigenous-Thinking-World/dp/1922790516), grounded in countless years of sustainable, harmonious living.
