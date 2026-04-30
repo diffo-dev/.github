@@ -208,7 +208,7 @@ doing_us_two_relationship = [from: :doing, type: "RELATING", to: :us_two]
 doing_knowledge_relationship = [from: :doing, type: "ADAPTING", to: :knowledge]
 
 me_doing_artefact = Artefact.new(
-  title: "MeKnowingMore",
+  title: "MeDoing",
   nodes: [
     me: me_node,
     doing: doing_node,
@@ -254,6 +254,7 @@ ArtefactKino.new(me_knowing_combined_artefact)
 ### Me Thinking
 
 Me thinks using Mind
+
 Mind is Kinship, Ancestor, Story, Pattern and Dreaming Mind
 
 ```elixir
