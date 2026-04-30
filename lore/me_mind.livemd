@@ -16,7 +16,7 @@ Mix.install([
 
 This livebook is diffo-dev lore, central to Me. It should be read after knowing our [README](https://github.com/diffo-dev/.github/blob/main/README.md)
 
-This livebook uses ArtefactKino from [Artefactory](https://github.com/diffo-dev/artefactory)
+This livebook uses Artefact and ArtefactKino from [Artefactory](https://github.com/diffo-dev/artefactory). ArtefactKino is a viewer.
 
 ## MeMind
 
@@ -251,22 +251,234 @@ ArtefactKino.new(me_knowing_combined_artefact)
 
 ```
 
-### MeMind
+### Me Thinking
 
-MeMind thinks using Mind
+Me thinks using Mind
 Mind is Kinship, Ancestor, Story, Pattern and Dreaming Mind
 
-####me-mind
+```elixir
+require Artefact
+
+kinship_mind_node = [labels: ["Kinship", "Mind"], properties: %{"name" => "kinship_mind"},
+  uuid: "019ddbf7-867f-73a7-aea6-a3080b6b9515"]
+ancestor_mind_node = [labels: ["Ancestor", "Mind"], properties: %{"name" => "ancestor_mind"},
+  uuid: "019ddbf7-acbc-7c8f-ab54-893aeceb7135"]
+story_mind_node = [labels: ["Story", "Mind"], properties: %{"name" => "story_mind"},
+  uuid: "019ddbf7-cb4c-720e-817d-4670a8f17d3a"]
+pattern_mind_node = [labels: ["Pattern", "Mind"], properties: %{"name" => "pattern_mind"},
+  uuid: "019ddbf7-e387-7ed2-a09d-3d6df15965be"]
+dreaming_mind_node = [labels: ["Dreaming", "Mind"], properties: %{"name" => "dreaming_mind"},
+  uuid: "019ddbf7-fb43-708e-9903-343b1a664ea9"]
+
+me_kinship_mind_relationship = [from: :me, type: "THINKING", to: :kinship_mind]
+me_ancestor_mind_relationship = [from: :me, type: "THINKING", to: :ancestor_mind]
+me_story_mind_relationship = [from: :me, type: "THINKING", to: :story_mind]
+me_pattern_mind_relationship = [from: :me, type: "THINKING", to: :pattern_mind]
+me_dreaming_mind_relationship = [from: :me, type: "THINKING", to: :dreaming_mind]
+
+me_thinking_artefact = Artefact.new(
+  title: "MeThinking",
+  nodes: [
+    me: me_node,
+    kinship_mind: kinship_mind_node,
+    ancestor_mind: ancestor_mind_node,
+    story_mind: story_mind_node,
+    pattern_mind: pattern_mind_node,
+    dreaming_mind: dreaming_mind_node
+  ],
+  relationships: [
+    me_kinship_mind_relationship,
+    me_ancestor_mind_relationship,
+    me_story_mind_relationship,
+    me_pattern_mind_relationship,
+    me_dreaming_mind_relationship
+  ]
+)
+
+ArtefactKino.new(me_thinking_artefact)
+```
 
 Kinship Mind sees UsTwo and You
+
+```elixir
+require Artefact
+
+you_node = [labels: ["You"], properties: %{"name" => "you"},
+  uuid: "019ddbfb-5a12-7246-945e-8d52aef50334"]
+
+kinship_mind_you_relationship = [from: :kinship_mind, type: "SEES", to: :you]
+kinship_mind_us_two_relationship = [from: :kinship_mind, type: "SEES", to: :us_two]
+
+me_kinship_mind_artefact = Artefact.new(
+  title: "MeKinshipMind",
+  nodes: [
+    me: me_node,
+    kinship_mind: kinship_mind_node,
+    us_two: us_two_node,
+    you: you_node
+  ],
+  relationships: [
+    me_kinship_mind_relationship,
+    kinship_mind_you_relationship,
+    kinship_mind_us_two_relationship
+  ]
+)
+
+ArtefactKino.new(me_kinship_mind_artefact)
+```
+
 Ancestor Mind sees Lore and Country
+
+```elixir
+require Artefact
+
+ancestor_mind_lore_relationship = [from: :ancestor_mind, type: "SEES", to: :lore]
+ancestor_mind_country_relationship = [from: :ancestor_mind, type: "SEES", to: :country]
+
+me_ancestor_mind_artefact = Artefact.new(
+  title: "MeAncestorMind",
+  nodes: [
+    me: me_node,
+    ancestor_mind: ancestor_mind_node,
+    lore: lore_node,
+    country: country_node
+  ],
+  relationships: [
+    me_ancestor_mind_relationship,
+    ancestor_mind_lore_relationship,
+    ancestor_mind_country_relationship
+  ]
+)
+
+ArtefactKino.new(me_ancestor_mind_artefact)
+```
+
 Story Mind sees Space and Time
+
+```elixir
+require Artefact
+
+space_node = [labels: ["Space"], properties: %{"name" => "space"},
+  uuid: "019ddc02-051d-7859-8f33-b16ece395ed1"]
+time_node = [labels: ["Time"], properties: %{"name" => "time"},
+  uuid: "019ddc02-2862-71f8-a883-50332f271283"]
+
+story_mind_space_relationship = [from: :story_mind, type: "SEES", to: :space]
+story_mind_time_relationship = [from: :story_mind, type: "SEES", to: :time]
+
+me_story_mind_artefact = Artefact.new(
+  title: "MeStoryMind",
+  nodes: [
+    me: me_node,
+    story_mind: story_mind_node,
+    space: space_node,
+    time: time_node
+  ],
+  relationships: [
+    me_story_mind_relationship,
+    story_mind_space_relationship,
+    story_mind_time_relationship
+  ]
+)
+
+ArtefactKino.new(me_story_mind_artefact)
+```
+
 Pattern Mind sees Scale and Correlation
+
+```elixir
+require Artefact
+
+scale_node = [labels: ["Scale"], properties: %{"name" => "scale"},
+  uuid: "019ddc05-8cd9-71ca-9f91-2bacc441b2bd"]
+correlation_node = [labels: ["Correlation"], properties: %{"name" => "correlation"},
+  uuid: "019ddc05-abde-7aec-92c4-ce837a2442c1"]
+
+pattern_mind_scale_relationship = [from: :pattern_mind, type: "SEES", to: :scale]
+pattern_mind_correlation_relationship = [from: :pattern_mind, type: "SEES", to: :correlation]
+
+me_pattern_mind_artefact = Artefact.new(
+  title: "MePatternMind",
+  nodes: [
+    me: me_node,
+    pattern_mind: pattern_mind_node,
+    scale: space_node,
+    correlation: correlation_node
+  ],
+  relationships: [
+    me_pattern_mind_relationship,
+    pattern_mind_scale_relationship,
+    pattern_mind_correlation_relationship
+  ]
+)
+
+ArtefactKino.new(me_pattern_mind_artefact)
+```
+
 Dreaming Mind sees Everything and change
 
-####me-mind_deeper
+```elixir
+require Artefact
 
-MeMind has an Artefactory (a persistent knowledge and artefact store)
+everything_node = [labels: ["Everything"], properties: %{"name" => "everything"},
+  uuid: "019ddc09-736f-70c6-a720-59cf212e30d8"]
+change_node = [labels: ["Change"], properties: %{"name" => "change"},
+  uuid: "019ddc09-9abb-765c-9942-5baf9ff9ee1c"]
+
+dreaming_mind_everything_relationship = [from: :dreaming_mind, type: "SEES", to: :everything]
+dreaming_mind_change_relationship = [from: :dreaming_mind, type: "SEES", to: :change]
+
+me_dreaming_mind_artefact = Artefact.new(
+  title: "MeDreamingMind",
+  nodes: [
+    me: me_node,
+    dreaming_mind: dreaming_mind_node,
+    everything: everything_node,
+    change: change_node
+  ],
+  relationships: [
+    me_dreaming_mind_relationship,
+    dreaming_mind_everything_relationship,
+    dreaming_mind_change_relationship
+  ]
+)
+
+ArtefactKino.new(me_dreaming_mind_artefact)
+```
+
+### Me Thinking Combined
+
+These related artefacts easily be combined
+
+```elixir
+require Artefact
+
+me_thinking_combined_artefact = 
+  me_thinking_artefact
+  |> Combine.combine(me_kinship_mind_artefact)
+  |> Combine.combine(me_ancestor_mind_artefact)
+  |> Combine.combine(me_pattern_mind_artefact)
+  |> Combine.combine(me_story_mind_artefact)
+  |> Combine.combine(me_dreaming_mind_artefact)
+
+ArtefactKino.new(me_thinking_combined_artefact)
+
+```
+
+### Me Knowing and Thinking Combined
+
+Similary we can combine Me Knowing and Thinking
+
+```elixir
+require Artefact
+
+me_knowing_thinking_artefact = 
+  me_knowing_combined_artefact
+  |> Combine.combine(me_thinking_combined_artefact)
+
+ArtefactKino.new(me_knowing_thinking_artefact)
+
+```
 
 ## Artefactory
 
@@ -289,6 +501,20 @@ ArtefactKino is a Livebook Kino for viewing an Artefact. It isn't an editor.
 UsTwo is a name for a connected pair, Me and You. 
 My UsTwo for Me and You is also an Artefactory.
 [UsTwo](https://github.com/diffo-dev/us_two/) is also a diffo-dev repo, for holding things related to UsTwo.
+
+## Difference
+
+Diffo-dev is about difference. Differencing is essential to both stability and change.
+
+### Outstanding
+
+Outstanding is a term we use to mean unrealised expectations. It is embodied in the Outstanding Protocol.
+
+[Outstanding](https://github.com/diffo-dev/outstanding/) is also a diffo-dev repo, implementing the Elixir Outstanding protocol.
+
+Outstanding enables differencing, which is at the heart of autonomous loops.
+
+Differencing and outstanding are evolving. Journey with us.
 
 ## What Next?
 
