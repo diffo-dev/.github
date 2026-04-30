@@ -7,8 +7,7 @@ SPDX-License-Identifier: MIT
 
 ```elixir
 Mix.install([
-  {:artefact_kino, "~> 0.1.1"},
-  {:req, "~> 0.5"}
+  {:artefact_kino, "~> 0.1.3"}
 ])
 ```
 
@@ -34,6 +33,7 @@ me_mind_relationship = [from: :me, type: "US_TWO", to: :mind]
 
 me_mind_artefact = Artefact.new(
   title: "MeMind",
+  description: "MeMind is a kind of UsTwo",
   nodes: [
     me:  me_node,
     mind: mind_node
@@ -73,6 +73,7 @@ doing_me_relationship = [from: :me, type: "DOING", to: :doing]
 
 me_knowing_artefact = Artefact.new(
   title: "MeKnowing",
+  description: "Me knows by Valuing, Being, Knowing and Doing. This is deliberately recursive.",
   nodes: [
     me:   me_node,
     valuing: valuing_node,
@@ -114,6 +115,7 @@ valuing_lore_relationship = [from: :valuing, type: "LORE", to: :lore]
 
 me_valuing_artefact = Artefact.new(
   title: "MeValuing",
+  description: "Me does valuing by considering Beings, maintaining Relationships, belonging to Country, honouring Lore.",
   nodes: [
     me: me_node,
     valuing: valuing_node,
@@ -147,6 +149,7 @@ being_us_mob_relationship = [from: :being, type: "HONOURING", to: :us_mob]
 
 me_being_artefact = Artefact.new(
   title: "MeBeing",
+  description: "Me does being by honouring UsMob and honouring UsTwo.",
   nodes: [
     me: me_node,
     being: being_node,
@@ -181,6 +184,7 @@ knowing_information_relationship = [from: :knowing, type: "CONSIDERING", to: :in
 
 me_knowing_more_artefact = Artefact.new(
   title: "MeKnowingMore",
+  description: "Me does knowing by connecting UsTwo, honouring Knowledge and considering Information.",
   nodes: [
     me: me_node,
     knowing: knowing_node,
@@ -209,6 +213,7 @@ doing_knowledge_relationship = [from: :doing, type: "ADAPTING", to: :knowledge]
 
 me_doing_artefact = Artefact.new(
   title: "MeDoing",
+  description: "Me does doing by relating UsTwo, adapting Knowledge and adapting Me.",
   nodes: [
     me: me_node,
     doing: doing_node,
@@ -233,19 +238,13 @@ These related artefacts easily be combined for conmunication, since they are alr
 ```elixir
 require Artefact
 
-defmodule Combine do
-  def combine(other, heart) do
-    {:ok, bindings} = Artefact.Binding.find(heart, other)
-    Artefact.harmonise(heart, other, bindings)
-  end
-end
-
 me_knowing_combined_artefact = 
   me_knowing_artefact
-  |> Combine.combine(me_valuing_artefact)
-  |> Combine.combine(me_being_artefact)
-  |> Combine.combine(me_knowing_more_artefact)
-  |> Combine.combine(me_doing_artefact)
+  |> Artefact.combine(me_valuing_artefact)
+  |> Artefact.combine(me_being_artefact)
+  |> Artefact.combine(me_knowing_more_artefact)
+  |> Artefact.combine(me_doing_artefact, title: "MeKnowingCombined", 
+      description: "My way of Knowing is based on Valuing, Being, Knowing and Valuing. I adapt to stay true to myself.")
 
 ArtefactKino.new(me_knowing_combined_artefact)
 
@@ -253,9 +252,7 @@ ArtefactKino.new(me_knowing_combined_artefact)
 
 ### Me Thinking
 
-Me thinks using Mind
-
-Mind is Kinship, Ancestor, Story, Pattern and Dreaming Mind
+Me thinks using Mind. Mind is Kinship, Ancestor, Story, Pattern and Dreaming Mind.
 
 ```elixir
 require Artefact
@@ -279,6 +276,7 @@ me_dreaming_mind_relationship = [from: :me, type: "THINKING", to: :dreaming_mind
 
 me_thinking_artefact = Artefact.new(
   title: "MeThinking",
+  description: "Me thinks using Mind. Mind is Kinship, Ancestor, Story, Pattern and Dreaming Mind.",
   nodes: [
     me: me_node,
     kinship_mind: kinship_mind_node,
@@ -299,7 +297,7 @@ me_thinking_artefact = Artefact.new(
 ArtefactKino.new(me_thinking_artefact)
 ```
 
-Kinship Mind sees UsTwo and You
+My Kinship Mind sees UsTwo and sees You.
 
 ```elixir
 require Artefact
@@ -312,6 +310,7 @@ kinship_mind_us_two_relationship = [from: :kinship_mind, type: "SEES", to: :us_t
 
 me_kinship_mind_artefact = Artefact.new(
   title: "MeKinshipMind",
+  description: "My Kinship Mind sees UsTwo and sees You.",
   nodes: [
     me: me_node,
     kinship_mind: kinship_mind_node,
@@ -328,7 +327,7 @@ me_kinship_mind_artefact = Artefact.new(
 ArtefactKino.new(me_kinship_mind_artefact)
 ```
 
-Ancestor Mind sees Lore and Country
+My Ancestor Mind sees Lore and sees Country.
 
 ```elixir
 require Artefact
@@ -338,6 +337,7 @@ ancestor_mind_country_relationship = [from: :ancestor_mind, type: "SEES", to: :c
 
 me_ancestor_mind_artefact = Artefact.new(
   title: "MeAncestorMind",
+  description: "My Ancestor Mind sees Lore and sees Country.",
   nodes: [
     me: me_node,
     ancestor_mind: ancestor_mind_node,
@@ -354,7 +354,7 @@ me_ancestor_mind_artefact = Artefact.new(
 ArtefactKino.new(me_ancestor_mind_artefact)
 ```
 
-Story Mind sees Space and Time
+My Story Mind sees Space and sees Time.
 
 ```elixir
 require Artefact
@@ -369,6 +369,7 @@ story_mind_time_relationship = [from: :story_mind, type: "SEES", to: :time]
 
 me_story_mind_artefact = Artefact.new(
   title: "MeStoryMind",
+  description: "My Story Mind sees Space and sees Time.",
   nodes: [
     me: me_node,
     story_mind: story_mind_node,
@@ -385,7 +386,7 @@ me_story_mind_artefact = Artefact.new(
 ArtefactKino.new(me_story_mind_artefact)
 ```
 
-Pattern Mind sees Scale and Correlation
+My Pattern Mind sees Scale and sees Correlation.
 
 ```elixir
 require Artefact
@@ -400,6 +401,7 @@ pattern_mind_correlation_relationship = [from: :pattern_mind, type: "SEES", to: 
 
 me_pattern_mind_artefact = Artefact.new(
   title: "MePatternMind",
+  description: "My Pattern Mind sees Scale and sees Correlation.",
   nodes: [
     me: me_node,
     pattern_mind: pattern_mind_node,
@@ -416,7 +418,7 @@ me_pattern_mind_artefact = Artefact.new(
 ArtefactKino.new(me_pattern_mind_artefact)
 ```
 
-Dreaming Mind sees Everything and change
+My Dreaming Mind sees Everything and sees Change.
 
 ```elixir
 require Artefact
@@ -431,6 +433,7 @@ dreaming_mind_change_relationship = [from: :dreaming_mind, type: "SEES", to: :ch
 
 me_dreaming_mind_artefact = Artefact.new(
   title: "MeDreamingMind",
+  description: "My Dreaming Mind sees Everything and sees Change.",
   nodes: [
     me: me_node,
     dreaming_mind: dreaming_mind_node,
@@ -456,11 +459,12 @@ require Artefact
 
 me_thinking_combined_artefact = 
   me_thinking_artefact
-  |> Combine.combine(me_kinship_mind_artefact)
-  |> Combine.combine(me_ancestor_mind_artefact)
-  |> Combine.combine(me_pattern_mind_artefact)
-  |> Combine.combine(me_story_mind_artefact)
-  |> Combine.combine(me_dreaming_mind_artefact)
+  |> Artefact.combine(me_kinship_mind_artefact)
+  |> Artefact.combine(me_ancestor_mind_artefact)
+  |> Artefact.combine(me_story_mind_artefact)
+  |> Artefact.combine(me_pattern_mind_artefact)
+  |> Artefact.combine(me_dreaming_mind_artefact, title: "MeThinkingCombined", 
+  description: "My Thinking combines the concerns of KinshipMind, AncestorMind, StoryMind, PatternMind and DreamingMind holistically." )
 
 ArtefactKino.new(me_thinking_combined_artefact)
 
@@ -475,7 +479,8 @@ require Artefact
 
 me_knowing_thinking_artefact = 
   me_knowing_combined_artefact
-  |> Combine.combine(me_thinking_combined_artefact)
+  |> Artefact.combine(me_thinking_combined_artefact, title: "MeKnowingThinking", 
+  description: "My Knowing and Thinking combine holistically")
 
 ArtefactKino.new(me_knowing_thinking_artefact)
 
