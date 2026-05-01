@@ -486,6 +486,27 @@ ArtefactKino.new(me_knowing_thinking_artefact)
 
 ```
 
+## Persistence
+
+If you'd like to save any of these you have a few choices. Each of the ArtefactKino has a pane where you can export in a form that can be imported to Neo4j (Cypher), Arrows.app (JSON) or Drawing tools (Mermaid). It just delegates this to the Artefact module.
+
+Arrows.app is an editor, and supports a two way 'roundtrip' which color and position information which isn't necessarily honoured by the Kino. Of course this is Elixir and data is immutable, so the Artefact you end up with is new and will have lost description.
+
+Generated cypher is in both create form and merge form. Create is more readable, but you probably want merge form so that you are merging nodes and edge and properties in the graph.
+
+Lastly an Artefact is an Elixir struct. So if you want to really keep one (outside of an Artefactory) we'll use :erlang.term_to_binary and filesystem. Erlang binary is of course coupled to the Erlang OTP version.
+
+All these forms require Artefact module to reconstruct an Artefact.
+
+```elixir
+require Artefact
+#update your path here as required
+path = "data/diffo-dev/"
+File.mkdir_p!(Path.dirname(path))
+
+File.write!(path <> "me_knowing_thinking.bin", :erlang.term_to_binary(me_knowing_thinking_artefact))
+```
+
 ## Artefactory
 
 Artefacts (note Australian spelling) are made objects, and in our universe (an Artefactory) these represent a fragment of knowledge, typically: abstract, insightful, contextual.
