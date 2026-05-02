@@ -7,7 +7,8 @@ SPDX-License-Identifier: MIT
 
 ```elixir
 Mix.install([
-  {:artefact_kino, "~> 0.1.3"}
+  {:artefact_kino, "~> 0.1.3"},
+  {:artefact, path: "/Users/Beanlanda/git/artefactory/artefact", override: true}
 ])
 ```
 
@@ -17,30 +18,30 @@ This livebook is diffo-dev lore, central to Me. It should be read after knowing 
 
 This livebook uses Artefact and ArtefactKino from [Artefactory](https://github.com/diffo-dev/artefactory). ArtefactKino is a viewer.
 
+```elixir
+require Artefact
+defmodule Util do
+  def relabel({node_ref, node}, labels) do
+    {node_ref, Keyword.replace(node, :labels, labels)}
+  end
+end
+```
+
 ## MeMind
 
 MeMind is a kind of UsTwo:
 
 ```elixir
-require Artefact
-
-me_node = [labels: ["Me"],  properties: %{"name" => "me"},
-             uuid: "019ddb71-c70b-7b3e-83b1-58f4d0be2852"]
-mind_node = [labels: ["Mind"], properties: %{"name" => "mind"},
-             uuid: "019ddb71-ed63-73e3-adeb-328290e8294e"]
+me = {:me, [labels: ["Agent"],  properties: %{"name" => "me"}, uuid: "019ddb71-c70b-7b3e-83b1-58f4d0be2852"]}
+mind = {:mind, [labels: ["Me"], properties: %{"name" => "mind"}, uuid: "019ddb71-ed63-73e3-adeb-328290e8294e"]}
 
 me_mind_relationship = [from: :me, type: "US_TWO", to: :mind]
 
 me_mind_artefact = Artefact.new(
   title: "MeMind",
   description: "MeMind is a kind of UsTwo",
-  nodes: [
-    me:  me_node,
-    mind: mind_node
-  ],
-  relationships: [
-    me_mind_relationship
-  ]
+  nodes: [me, mind],
+  relationships: [me_mind_relationship]
 )
 
 ArtefactKino.new(me_mind_artefact)
@@ -48,19 +49,13 @@ ArtefactKino.new(me_mind_artefact)
 
 ### Me Knowing
 
-Me knows by Valuing, Being, Knowing and Doing. This is deliberately recursive.
+Me knowing by Valuing, Being, Knowing and Doing. This is deliberately recursive.
 
 ```elixir
-require Artefact
-
-valuing_node = [labels: ["Valuing"], properties: %{"name" => "valuing"},
-    uuid: "019ddb7f-a43d-7525-bb4f-bfd32d110719"]
-being_node = [labels: ["Being"], properties: %{"name" => "being"},
-    uuid: "019ddb7f-d5f5-7f82-97a1-fab1fb13c35a"]
-knowing_node = [labels: ["Knowing"], properties: %{"name" => "knowing"},
-    uuid: "019ddb7f-f735-76dc-947d-22822e2ce3bc"]
-doing_node =[labels: ["Doing"], properties: %{"name" => "doing"},
-    uuid: "019ddb80-169c-709a-843e-baf4b551f17d"]
+valuing = {:valuing, [labels: ["Knowing"], properties: %{"name" => "valuing"}, uuid: "019ddb7f-a43d-7525-bb4f-bfd32d110719"]}
+being = {:being, [labels: ["Knowing"], properties: %{"name" => "being"}, uuid: "019ddb7f-d5f5-7f82-97a1-fab1fb13c35a"]}
+knowing = {:knowing, [labels: ["Knowing"], properties: %{"name" => "knowing"}, uuid: "019ddb7f-f735-76dc-947d-22822e2ce3bc"]}
+doing = {:doing, [labels: ["Knowing"], properties: %{"name" => "doing"}, uuid: "019ddb80-169c-709a-843e-baf4b551f17d"]}
 
 me_valuing_relationship = [from: :me, type: "VALUING", to: :valuing]
 me_being_relationship = [from: :me, type: "BEING", to: :being]
@@ -74,13 +69,7 @@ doing_me_relationship = [from: :me, type: "DOING", to: :doing]
 me_knowing_artefact = Artefact.new(
   title: "MeKnowing",
   description: "Me knows by Valuing, Being, Knowing and Doing. This is deliberately recursive.",
-  nodes: [
-    me:   me_node,
-    valuing: valuing_node,
-    being: being_node,
-    knowing: knowing_node,
-    doing: doing_node
-  ],
+  nodes: [me, valuing, being, knowing, doing],
   relationships: [
     me_valuing_relationship,
     me_being_relationship,
@@ -96,19 +85,19 @@ me_knowing_artefact = Artefact.new(
 ArtefactKino.new(me_knowing_artefact)
 ```
 
-Me does valuing by considering Beings, maintaining Relationships, belonging to Country, honouring Lore.
+Me does Valuing by considering Beings, maintaining Relationships, belonging to Country, honouring Lore.
 
 ```elixir
-require Artefact
+beings = {:beings, [labels: ["Valuing"], properties: %{"name" => "beings"},
+    uuid: "019de8bb-86b0-7acf-b1b8-40e96a3775a6"]}
+relationships = {:relationships, [labels: ["Valuing"], properties: %{"name" => "relationships"},
+    uuid: "019ddb89-5987-7c38-a7ce-b7f72298155b"]}
+country =  {:country, [labels: ["Valuing"], properties: %{"name" => "country"},
+    uuid: "019ddb89-7f21-77ee-a30d-1fb9fc77ef64"]}
+lore = {:lore, [labels: ["Valuing"], properties: %{"name" => "lore"},
+    uuid: "019ddb89-9b0e-7a66-9cad-88b69005b844"]}
 
-relationships_node = [labels: ["Relationships"], properties: %{"name" => "relationships"},
-    uuid: "019ddb89-5987-7c38-a7ce-b7f72298155b"]
-country_node = [labels: ["Country"], properties: %{"name" => "country"},
-    uuid: "019ddb89-7f21-77ee-a30d-1fb9fc77ef64"]
-lore_node = [labels: ["Lore"], properties: %{"name" => "lore"},
-    uuid: "019ddb89-9b0e-7a66-9cad-88b69005b844"]
-
-valuing_being_relationship = [from: :valuing, type: "CONSIDERING", to: :beings]
+valuing_beings_relationship = [from: :valuing, type: "CONSIDERING", to: :beings]
 valuing_relationships_relationship = [from: :valuing, type: "MAINTAINING", to: :relationships]
 valuing_country_relationship = [from: :valuing, type: "BELONGING", to: :country]
 valuing_lore_relationship = [from: :valuing, type: "LORE", to: :lore]
@@ -116,17 +105,10 @@ valuing_lore_relationship = [from: :valuing, type: "LORE", to: :lore]
 me_valuing_artefact = Artefact.new(
   title: "MeValuing",
   description: "Me does valuing by considering Beings, maintaining Relationships, belonging to Country, honouring Lore.",
-  nodes: [
-    me: me_node,
-    valuing: valuing_node,
-    beings: being_node,
-    relationships: relationships_node,
-    country: country_node,
-    lore: lore_node
-  ],
+  nodes: [me, valuing, beings, relationships, country, lore],
   relationships: [
     me_valuing_relationship,
-    valuing_being_relationship,
+    valuing_beings_relationship,
     valuing_relationships_relationship,
     valuing_country_relationship,
     valuing_lore_relationship
@@ -136,13 +118,15 @@ me_valuing_artefact = Artefact.new(
 ArtefactKino.new(me_valuing_artefact)
 ```
 
-Me does being by honouring UsMob and honouring UsTwo.
+Me does Being by honouring UsMob and honouring UsTwo.
 
 ```elixir
-require Artefact
+import Util
 
-us_two_node = [labels: ["UsTwo"], properties: %{"name" => "us_two"},
-   uuid: "019ddb8e-8891-72e5-b689-150b922ab99f"]
+us_two = {:us_two, [labels: ["Being"], properties: %{"name" => "us_two"},
+  uuid: "019ddb8e-8891-72e5-b689-150b922ab99f"]}
+us_mob = {:us_mob, [labels: ["Being"], properties: %{"name" => "us_mob"},
+  uuid: "019ddb8e-a427-7373-88a9-9decdb1d132e"]}
 
 being_us_two_relationship = [from: :being, type: "HONOURING", to: :us_two]
 being_us_mob_relationship = [from: :being, type: "HONOURING", to: :us_mob]
@@ -150,14 +134,7 @@ being_us_mob_relationship = [from: :being, type: "HONOURING", to: :us_mob]
 me_being_artefact = Artefact.new(
   title: "MeBeing",
   description: "Me does being by honouring UsMob and honouring UsTwo.",
-  nodes: [
-    me: me_node,
-    being: being_node,
-    us_two: us_two_node,
-
-    us_mob: [labels: ["UsMob"], properties: %{"name" => "us_mob"},
-             uuid: "019ddb8e-a427-7373-88a9-9decdb1d132e"]
-  ],
+  nodes: [me, being, relabel(us_two, ["Being"]), relabel(us_mob, ["Being"])],
   relationships: [
     me_being_relationship,
     being_us_two_relationship = [from: :being, type: "HONOURING", to: :us_two],
@@ -168,15 +145,13 @@ me_being_artefact = Artefact.new(
 ArtefactKino.new(me_being_artefact)
 ```
 
-Me does knowing by connecting UsTwo, honouring Knowledge and considering Information.
+Me does Knowing by connecting UsTwo, honouring Knowledge and considering Information.
 
 ```elixir
-require Artefact
-
-knowledge_node = [labels: ["Knowledge"], properties: %{"name" => "knowledge"},
-  uuid: "019ddba7-bd46-7594-8293-97de75d15a96"]
-information_node = [labels: ["Information"], properties: %{"name" => "information"},
-  uuid: "019ddba8-3c5c-7652-bc30-59429e972551"]
+knowledge = {:knowledge, [labels: ["Knowing"], properties: %{"name" => "knowledge"},
+  uuid: "019ddba7-bd46-7594-8293-97de75d15a96"]}
+information = {:information, [labels: ["Knowing"], properties: %{"name" => "information"},
+  uuid: "019ddba8-3c5c-7652-bc30-59429e972551"]}
 
 knowing_us_two_relationship = [from: :knowing, type: "CONNECTING", to: :us_two]
 knowing_knowledge_relationship = [from: :knowing, type: "HONOURING", to: :knowledge]
@@ -185,13 +160,7 @@ knowing_information_relationship = [from: :knowing, type: "CONSIDERING", to: :in
 me_knowing_more_artefact = Artefact.new(
   title: "MeKnowingMore",
   description: "Me does knowing by connecting UsTwo, honouring Knowledge and considering Information.",
-  nodes: [
-    me: me_node,
-    knowing: knowing_node,
-    us_two: us_two_node,
-    knowledge: knowledge_node,
-    information: information_node
-  ],
+  nodes: [me, knowing, relabel(us_two, ["Knowing"]), knowledge, information],
   relationships: [
     me_knowing_relationship,
     knowing_us_two_relationship,
@@ -203,26 +172,21 @@ me_knowing_more_artefact = Artefact.new(
 ArtefactKino.new(me_knowing_more_artefact)
 ```
 
-Me does doing by relating UsTwo, adapting Knowledge and adapting Me.
+Me does Doing by relating UsTwo, serving UsMob, adapting Knowledge and adapting Me.
 
 ```elixir
-require Artefact
-
 doing_us_two_relationship = [from: :doing, type: "RELATING", to: :us_two]
+doing_us_mob_relationship = [from: :doing, type: "SERVING", to: :us_mob]
 doing_knowledge_relationship = [from: :doing, type: "ADAPTING", to: :knowledge]
 
 me_doing_artefact = Artefact.new(
   title: "MeDoing",
-  description: "Me does doing by relating UsTwo, adapting Knowledge and adapting Me.",
-  nodes: [
-    me: me_node,
-    doing: doing_node,
-    us_two: us_two_node,
-    knowledge: knowledge_node,
-  ],
+  description: "Me does Doing by relating UsTwo, serving UsMob, adapting Knowledge and adapting Me.",
+  nodes: [me, doing, relabel(us_two, ["Doing"]), relabel(us_mob, ["Doing"]), relabel(knowledge, ["Doing"])],
   relationships: [
     me_doing_relationship,
     doing_us_two_relationship,
+    doing_us_mob_relationship,
     doing_knowledge_relationship,
     doing_me_relationship 
   ]
@@ -252,73 +216,65 @@ ArtefactKino.new(me_knowing_combined_artefact)
 
 ### Me Thinking
 
-Me thinks using Mind. Mind is Kinship, Ancestor, Story, Pattern and Dreaming Mind.
+Me does Thinking using Mind. Mind is Kinship, Ancestor, Story, Pattern and Dreaming Mind.
 
 ```elixir
 require Artefact
 
-kinship_mind_node = [labels: ["Kinship", "Mind"], properties: %{"name" => "kinship_mind"},
-  uuid: "019ddbf7-867f-73a7-aea6-a3080b6b9515"]
-ancestor_mind_node = [labels: ["Ancestor", "Mind"], properties: %{"name" => "ancestor_mind"},
-  uuid: "019ddbf7-acbc-7c8f-ab54-893aeceb7135"]
-story_mind_node = [labels: ["Story", "Mind"], properties: %{"name" => "story_mind"},
-  uuid: "019ddbf7-cb4c-720e-817d-4670a8f17d3a"]
-pattern_mind_node = [labels: ["Pattern", "Mind"], properties: %{"name" => "pattern_mind"},
-  uuid: "019ddbf7-e387-7ed2-a09d-3d6df15965be"]
-dreaming_mind_node = [labels: ["Dreaming", "Mind"], properties: %{"name" => "dreaming_mind"},
-  uuid: "019ddbf7-fb43-708e-9903-343b1a664ea9"]
+kinship_mind = {:kinship_mind, [labels: ["Thinking"], properties: %{"name" => "kinship_mind"},
+  uuid: "019ddbf7-867f-73a7-aea6-a3080b6b9515"]}
+ancestor_mind = {:ancestor_mind, [labels: ["Thinking"], properties: %{"name" => "ancestor_mind"},
+  uuid: "019ddbf7-acbc-7c8f-ab54-893aeceb7135"]}
+story_mind = {:story_mind, [labels: ["Thinking"], properties: %{"name" => "story_mind"},
+  uuid: "019ddbf7-cb4c-720e-817d-4670a8f17d3a"]}
+pattern_mind = {:pattern_mind, [labels: ["Thinking"], properties: %{"name" => "pattern_mind"},
+  uuid: "019ddbf7-e387-7ed2-a09d-3d6df15965be"]}
+dreaming_mind = {:dreaming_mind, [labels: ["Thinking"], properties: %{"name" => "dreaming_mind"},
+  uuid: "019ddbf7-fb43-708e-9903-343b1a664ea9"]}
 
-me_kinship_mind_relationship = [from: :me, type: "THINKING", to: :kinship_mind]
-me_ancestor_mind_relationship = [from: :me, type: "THINKING", to: :ancestor_mind]
-me_story_mind_relationship = [from: :me, type: "THINKING", to: :story_mind]
-me_pattern_mind_relationship = [from: :me, type: "THINKING", to: :pattern_mind]
-me_dreaming_mind_relationship = [from: :me, type: "THINKING", to: :dreaming_mind]
+mind_kinship_mind_relationship = [from: :mind, type: "THINKING", to: :kinship_mind]
+mind_ancestor_mind_relationship = [from: :mind, type: "THINKING", to: :ancestor_mind]
+mind_story_mind_relationship = [from: :mind, type: "THINKING", to: :story_mind]
+mind_pattern_mind_relationship = [from: :mind, type: "THINKING", to: :pattern_mind]
+mind_dreaming_mind_relationship = [from: :mind, type: "THINKING", to: :dreaming_mind]
 
 me_thinking_artefact = Artefact.new(
   title: "MeThinking",
   description: "Me thinks using Mind. Mind is Kinship, Ancestor, Story, Pattern and Dreaming Mind.",
-  nodes: [
-    me: me_node,
-    kinship_mind: kinship_mind_node,
-    ancestor_mind: ancestor_mind_node,
-    story_mind: story_mind_node,
-    pattern_mind: pattern_mind_node,
-    dreaming_mind: dreaming_mind_node
-  ],
+  nodes: [me, mind, kinship_mind, ancestor_mind, story_mind, pattern_mind, dreaming_mind],
   relationships: [
-    me_kinship_mind_relationship,
-    me_ancestor_mind_relationship,
-    me_story_mind_relationship,
-    me_pattern_mind_relationship,
-    me_dreaming_mind_relationship
+    me_mind_relationship,
+    mind_kinship_mind_relationship,
+    mind_ancestor_mind_relationship,
+    mind_story_mind_relationship,
+    mind_pattern_mind_relationship,
+    mind_dreaming_mind_relationship
   ]
 )
 
 ArtefactKino.new(me_thinking_artefact)
 ```
 
-My Kinship Mind sees UsTwo and sees You.
+My Kinship Mind sees Beings and sees You and sees UsTwo.
 
 ```elixir
 require Artefact
 
-you_node = [labels: ["You"], properties: %{"name" => "you"},
-  uuid: "019ddbfb-5a12-7246-945e-8d52aef50334"]
+you = {:you, [labels: ["Kinship"], properties: %{"name" => "you"},
+  uuid: "019ddbfb-5a12-7246-945e-8d52aef50334"]}
 
+kinship_mind_beings_relationship = [from: :kinship_mind, type: "SEES", to: :beings]
 kinship_mind_you_relationship = [from: :kinship_mind, type: "SEES", to: :you]
 kinship_mind_us_two_relationship = [from: :kinship_mind, type: "SEES", to: :us_two]
 
 me_kinship_mind_artefact = Artefact.new(
   title: "MeKinshipMind",
-  description: "My Kinship Mind sees UsTwo and sees You.",
-  nodes: [
-    me: me_node,
-    kinship_mind: kinship_mind_node,
-    us_two: us_two_node,
-    you: you_node
-  ],
+  description: "My Kinship Mind sees Beings, sees You, sees UsTwo.",
+  nodes: [me, mind, kinship_mind, relabel(beings, ["Kinship"]), relabel(us_two, ["Kinship"]), you],
   relationships: [
-    me_kinship_mind_relationship,
+    me_mind_relationship,
+    mind_kinship_mind_relationship,
+    kinship_mind_beings_relationship,
     kinship_mind_you_relationship,
     kinship_mind_us_two_relationship
   ]
@@ -338,14 +294,10 @@ ancestor_mind_country_relationship = [from: :ancestor_mind, type: "SEES", to: :c
 me_ancestor_mind_artefact = Artefact.new(
   title: "MeAncestorMind",
   description: "My Ancestor Mind sees Lore and sees Country.",
-  nodes: [
-    me: me_node,
-    ancestor_mind: ancestor_mind_node,
-    lore: lore_node,
-    country: country_node
-  ],
+  nodes: [me, mind, ancestor_mind, relabel(lore, ["Ancestor"]), relabel(country, ["Ancestor"])],
   relationships: [
-    me_ancestor_mind_relationship,
+    me_mind_relationship,
+    mind_ancestor_mind_relationship,
     ancestor_mind_lore_relationship,
     ancestor_mind_country_relationship
   ]
@@ -357,12 +309,10 @@ ArtefactKino.new(me_ancestor_mind_artefact)
 My Story Mind sees Space and sees Time.
 
 ```elixir
-require Artefact
-
-space_node = [labels: ["Space"], properties: %{"name" => "space"},
-  uuid: "019ddc02-051d-7859-8f33-b16ece395ed1"]
-time_node = [labels: ["Time"], properties: %{"name" => "time"},
-  uuid: "019ddc02-2862-71f8-a883-50332f271283"]
+space = {:space, [labels: ["Story"], properties: %{"name" => "space"},
+  uuid: "019ddc02-051d-7859-8f33-b16ece395ed1"]}
+time = {:time, [labels: ["Story"], properties: %{"name" => "time"},
+  uuid: "019ddc02-2862-71f8-a883-50332f271283"]}
 
 story_mind_space_relationship = [from: :story_mind, type: "SEES", to: :space]
 story_mind_time_relationship = [from: :story_mind, type: "SEES", to: :time]
@@ -370,14 +320,10 @@ story_mind_time_relationship = [from: :story_mind, type: "SEES", to: :time]
 me_story_mind_artefact = Artefact.new(
   title: "MeStoryMind",
   description: "My Story Mind sees Space and sees Time.",
-  nodes: [
-    me: me_node,
-    story_mind: story_mind_node,
-    space: space_node,
-    time: time_node
-  ],
+  nodes: [me, mind, story_mind, space, time],
   relationships: [
-    me_story_mind_relationship,
+    me_mind_relationship,
+    mind_story_mind_relationship,
     story_mind_space_relationship,
     story_mind_time_relationship
   ]
@@ -391,10 +337,10 @@ My Pattern Mind sees Scale and sees Correlation.
 ```elixir
 require Artefact
 
-scale_node = [labels: ["Scale"], properties: %{"name" => "scale"},
-  uuid: "019ddc05-8cd9-71ca-9f91-2bacc441b2bd"]
-correlation_node = [labels: ["Correlation"], properties: %{"name" => "correlation"},
-  uuid: "019ddc05-abde-7aec-92c4-ce837a2442c1"]
+scale = {:scale, [labels: ["Pattern"], properties: %{"name" => "scale"},
+  uuid: "019ddc05-8cd9-71ca-9f91-2bacc441b2bd"]}
+correlation = {:correlation, [labels: ["Pattern"], properties: %{"name" => "correlation"},
+  uuid: "019ddc05-abde-7aec-92c4-ce837a2442c1"]}
 
 pattern_mind_scale_relationship = [from: :pattern_mind, type: "SEES", to: :scale]
 pattern_mind_correlation_relationship = [from: :pattern_mind, type: "SEES", to: :correlation]
@@ -402,14 +348,10 @@ pattern_mind_correlation_relationship = [from: :pattern_mind, type: "SEES", to: 
 me_pattern_mind_artefact = Artefact.new(
   title: "MePatternMind",
   description: "My Pattern Mind sees Scale and sees Correlation.",
-  nodes: [
-    me: me_node,
-    pattern_mind: pattern_mind_node,
-    scale: space_node,
-    correlation: correlation_node
-  ],
+  nodes: [me, mind, pattern_mind, scale, correlation],
   relationships: [
-    me_pattern_mind_relationship,
+    me_mind_relationship,
+    mind_pattern_mind_relationship,
     pattern_mind_scale_relationship,
     pattern_mind_correlation_relationship
   ]
@@ -423,10 +365,10 @@ My Dreaming Mind sees Everything and sees Change.
 ```elixir
 require Artefact
 
-everything_node = [labels: ["Everything"], properties: %{"name" => "everything"},
-  uuid: "019ddc09-736f-70c6-a720-59cf212e30d8"]
-change_node = [labels: ["Change"], properties: %{"name" => "change"},
-  uuid: "019ddc09-9abb-765c-9942-5baf9ff9ee1c"]
+everything = {:everything, [labels: ["Dreaming"], properties: %{"name" => "everything"},
+  uuid: "019ddc09-736f-70c6-a720-59cf212e30d8"]}
+change = {:change, [labels: ["Dreaming"], properties: %{"name" => "change"},
+  uuid: "019ddc09-9abb-765c-9942-5baf9ff9ee1c"]}
 
 dreaming_mind_everything_relationship = [from: :dreaming_mind, type: "SEES", to: :everything]
 dreaming_mind_change_relationship = [from: :dreaming_mind, type: "SEES", to: :change]
@@ -434,14 +376,10 @@ dreaming_mind_change_relationship = [from: :dreaming_mind, type: "SEES", to: :ch
 me_dreaming_mind_artefact = Artefact.new(
   title: "MeDreamingMind",
   description: "My Dreaming Mind sees Everything and sees Change.",
-  nodes: [
-    me: me_node,
-    dreaming_mind: dreaming_mind_node,
-    everything: everything_node,
-    change: change_node
-  ],
+  nodes: [me, mind, dreaming_mind, everything, change],
   relationships: [
-    me_dreaming_mind_relationship,
+    me_mind_relationship,
+    mind_dreaming_mind_relationship,
     dreaming_mind_everything_relationship,
     dreaming_mind_change_relationship
   ]
