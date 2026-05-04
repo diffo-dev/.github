@@ -1,0 +1,212 @@
+# Diffo-Dev Considers Agile
+
+```elixir
+Mix.install([
+  {:artefact_kino, "~> 0.1.3"}
+])
+```
+
+## Overview
+
+This livebook should be read after Knowing the diffo-dev Lore livebook [![Run in Livebook](https://livebook.dev/badge/v1/blue.svg)](https://livebook.dev/run?url=https%3A%2F%2Fgithub.com%2Fdiffo-dev%2F.github%2Fblob%2Fmain%2Flivebook%2Flore.livemd)
+
+This livebook uses Artefact and ArtefactKino from [Artefactory](https://github.com/diffo-dev/artefactory). ArtefactKino is a viewer.
+
+```elixir
+require Artefact
+defmodule Util do
+  def relabel({node_ref, node}, labels) do
+    {node_ref, Keyword.replace(node, :labels, labels)}
+  end
+end
+```
+
+## Agile Manifesto
+
+Using Diffo lore we consider the [Agile Manifesto](https://agilemanifesto.org) information into our Artefact format, with a central Me.
+
+While valued this is not Diffo-dev lore. 
+We'll takes some license so that we are harmonising with our terms.
+
+It is interesting that the manifesto is already an artefact, and agreed in 2001 by 17 individuals with a shared way of knowing and thinking.
+
+> We are uncovering better ways of developing software by doing it and helping others do it.
+> Through this work we have come to value:
+> 
+> * Individuals and interactions over processes and tools
+> * Working software over comprehensive documentation
+> * Customer collaboration over contract negotiation
+> * Responding to change over following a plan
+>   That is, while there is value in the items on the right, we value the items on the left more.
+
+## Individuals and interactions over processes and tools
+
+### Me values Beings and Relationships above Doing
+
+Me values considering Beings and maintaining Relationships above Crafting Artefacts and Engineering Resources.
+
+```elixir
+
+me = {:me, [labels: ["Agent"],  properties: %{"name" => "me"}, uuid: "019ddb71-c70b-7b3e-83b1-58f4d0be2852"]}
+valuing = {:valuing, [labels: ["Knowing"], properties: %{"name" => "valuing"}, uuid: "019ddb7f-a43d-7525-bb4f-bfd32d110719"]}
+doing = {:doing, [labels: ["Knowing"], properties: %{"name" => "doing"}, uuid: "019ddb80-169c-709a-843e-baf4b551f17d"]}
+beings = {:beings, [labels: ["Valuing"], properties: %{"name" => "beings"}, uuid: "019de8bb-86b0-7acf-b1b8-40e96a3775a6"]}
+relationships = {:relationships, [labels: ["Valuing"], properties: %{"name" => "relationships"}, uuid: "019ddb89-5987-7c38-a7ce-b7f72298155b"]}
+
+artefacts = {:artefacts, [labels: ["Doing"], properties: %{"name" => "artefacts"}, uuid: "019df285-8200-7fc4-acf2-edddc433ede7"]}
+resources = {:resources, [labels: ["Doing"], properties: %{"name" => "resources"}, uuid: "019df272-239c-7bef-9a30-757aebc94235"]}
+
+me_valuing_relationship = [from: :me, type: "VALUING", to: :valuing]
+valuing_beings_relationship = [from: :valuing, type: "CONSIDERING", to: :beings]
+valuing_relationships_relationship = [from: :valuing, type: "MAINTAINING", to: :relationships]
+
+me_doing_relationship = [from: :me, type: "VALUING", to: :doing]
+doing_artefacts_relationship = [from: :doing, type: "CRAFTING", to: :artefacts]
+doing_resources_relationship = [from: :doing, type: "STEWARDING", to: :resources]
+
+beings_artefacts_relationship = [from: :beings, type: "VALUED_ABOVE", to: :artefacts]
+beings_resources_relationship = [from: :beings, type: "VALUED_ABOVE", to: :resources]
+relationships_artefacts_relationship = [from: :relationships, type: "VALUED_ABOVE", to: :artefacts]
+relationships_resources_relationship = [from: :relationships, type: "VALUED_ABOVE", to: :resources]
+
+me_valuing_agile_1_artefact = Artefact.new(
+  title: "Me values Beings and Relationships above Artefacts and Resources",
+  description: "Me values considering Beings and maintaining Relationships above Crafting Artefacts and Engineering Resources.",
+  nodes: [me, valuing, beings, relationships, doing, artefacts, resources],
+  relationships: [
+    me_valuing_relationship,
+    me_doing_relationship,
+    valuing_beings_relationship,
+    valuing_relationships_relationship,
+    doing_artefacts_relationship,
+    doing_resources_relationship,
+    beings_artefacts_relationship,
+    beings_resources_relationship,
+    relationships_artefacts_relationship,
+    relationships_resources_relationship]
+)
+
+ArtefactKino.new(me_valuing_agile_1_artefact)
+
+```
+
+## Working software over comprehensive documentation
+
+#### Me values Resources above Artefacts
+
+Me values Engineering Resources above Crafting Artefacts
+
+```elixir
+resources_artefacts_relationship = [from: :resources, type: "VALUED_ABOVE", to: :artefacts]
+me_valuing_agile_2_artefact = Artefact.new(
+  title: "Me values Resources above Artefacts",
+  description: "Me values Engineering Resources above Crafting Artefacts",
+  nodes: [me, doing, resources, artefacts],
+  relationships: [
+    me_doing_relationship,
+    doing_resources_relationship,
+    doing_artefacts_relationship,
+    resources_artefacts_relationship]
+)
+
+ArtefactKino.new(me_valuing_agile_2_artefact)
+
+```
+
+## Customer collaboration over contract negotiation
+
+### Me values Relating above Connecting.
+
+Me values Relating UsTwo above Connecting UsTwo.
+
+```elixir
+being = {:being, [labels: ["Knowing"], properties: %{"name" => "being"}, uuid: "019ddb7f-d5f5-7f82-97a1-fab1fb13c35a"]}
+relate = {:relate, [labels: ["Being"], properties: %{"name" => "relate"}, uuid: "019df0db-690f-7b90-a952-8ffbc484fe01"]}
+connect = {:connect, [labels: ["Being"], properties: %{"name" => "connect"}, uuid: "019df0dc-3334-7d3d-852f-731de8649b0e"]}
+us_two = {:us_two, [labels: ["Being"], properties: %{"name" => "us_two"}, uuid: "019ddb8e-8891-72e5-b689-150b922ab99f"]}
+
+me_being_relationship = [from: :me, type: "BEING", to: :being]
+being_relate_relationship = [from: :being, type: "BEING", to: :relate]
+being_connect_relationship = [from: :being, type: "BEING", to: :connect]
+being_us_two_relationship = [from: :being, type: "HONOURING", to: :us_two]
+connect_relate_relationship = [from: :connect, type: "BEFORE", to: :relate]
+relate_connect_relationship = [from: :relate, type: "VALUED_ABOVE", to: :connect]
+
+me_valuing_agile_3_artefact = Artefact.new(
+  title: "Me values Relating above Connecting",
+  description: "Me values Relating UsTwo above Connecting UsTwo",
+  nodes: [me, being, relate, connect, us_two],  
+  relationships: [
+    me_being_relationship,
+    being_relate_relationship,
+    being_connect_relationship,
+    being_us_two_relationship,
+    connect_relate_relationship,
+    relate_connect_relationship
+  ]
+)
+
+ArtefactKino.new(me_valuing_agile_3_artefact)
+
+```
+
+## Responding to change over following a plan
+
+### Me values Doing above Being.
+
+Me values Doing Adapting Me above Being Me.
+
+```elixir
+doing_being_relationship = [from: :doing, type: "VALUED_ABOVE", to: :being]
+doing_me_relationship = [from: :doing, type: "ADAPTING", to: :me]
+
+me_valuing_agile_4_artefact = Artefact.new(
+  title: "Me values Doing above Being",
+  description: "Me values Doing Adapting Me over Being Me",
+  nodes: [me, being, doing],  
+  relationships: [
+    me_being_relationship,
+    me_doing_relationship,
+    doing_me_relationship,
+    doing_being_relationship
+  ]
+)
+
+ArtefactKino.new(me_valuing_agile_4_artefact)
+
+```
+
+## My Agile
+
+```elixir
+my_agile_artefact = 
+  me_valuing_agile_1_artefact
+  |> Artefact.combine(me_valuing_agile_2_artefact)
+  |> Artefact.combine(me_valuing_agile_3_artefact)
+  |> Artefact.combine(me_valuing_agile_4_artefact, title: "My Agile", description: "My valuing based on My Agile" )
+
+ArtefactKino.new(my_agile_artefact)
+```
+
+## Me Holistically Agile
+
+```elixir
+#update your path here as required
+path = "data/diffo-dev/"
+binary = File.read!(path <> "me_holistically.bin")
+me_holistically_artefact = :erlang.binary_to_term(binary)
+
+me_holistically_agile_artefact =
+  me_holistically_artefact
+  |> Artefact.combine(my_agile_artefact, title: "Me Holistically Agile", description: "Me with priorities added after valuing agile")
+
+File.mkdir_p!(Path.dirname(path))
+File.write!(path <> "me_holistically_agile.bin", :erlang.term_to_binary(me_holistically_agile_artefact))
+ArtefactKino.new(me_holistically_agile_artefact)
+
+
+```
+
+## Summary
+
+We've adapted our knowledge based on Agile Manifesto, while staying true to Diffo lore.
