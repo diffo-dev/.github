@@ -1,0 +1,93 @@
+# Diffo-Dev Dreams of A Manifesto
+
+```elixir
+Mix.install([
+  {:artefact_kino, "~> 0.1.3"}
+])
+```
+
+## Overview
+
+This livebook should be read after Knowing the diffo-dev Lore livebook [![Run in Livebook](https://livebook.dev/badge/v1/blue.svg)](https://livebook.dev/run?url=https%3A%2F%2Fgithub.com%2Fdiffo-dev%2F.github%2Fblob%2Fmain%2Flivebook%2Flore.livemd)
+
+This livebook uses Artefact and ArtefactKino from [Artefactory](https://github.com/diffo-dev/artefactory). ArtefactKino is a viewer.
+
+```elixir
+require Artefact
+defmodule Util do
+  def relabel({node_ref, node}, labels) do
+    {node_ref, Keyword.replace(node, :labels, labels)}
+  end
+end
+```
+
+## Diffo Manifesto
+
+Explore the diffo-dev Agile livebook [![Run in Livebook](https://livebook.dev/badge/v1/blue.svg)](https://livebook.dev/run?url=https%3A%2F%2Fgithub.com%2Fdiffo-dev%2F.github%2Fblob%2Fmain%2Flivebook%2Fagile_manifesto.livemd)
+
+Does Diffo-dev need its own Manifesto?
+
+A manifesto must integrate with our lore and help us realise our Being. Our Knowing is Doing, so before a manifesto must comprise of 'experienced knowledge', not merely theory.
+
+Here is our 'straw dog':
+
+> We are beginning to know the ways of ethical agency through valuing, being, knowing, doing in accordance with our lore.
+> So far Collectively and Individually we have come to value:
+> 
+> * Acting Ethically Above Achieving Success
+> * Bestowing Agency Above Attempting Control
+> * Maintaining Engagement Above Ensuring Protection
+> * Declaring Intent Above Issuing Imperatives
+> * Performing Stewardship Above Preserving Inheritance
+> * Slowly Adapting Above Quickly Thinking
+>   That is, while we value the items on the right, we value the items on the left (heart side) more.
+
+Our manifesto will be workshopped in the collective and will live as long as we do knowing. Journey with us.
+
+## Artefact Representation (work in progress)
+
+```elixir
+me = {:me, [labels: ["Agent"],  properties: %{"name" => "me"}, uuid: "019ddb71-c70b-7b3e-83b1-58f4d0be2852"]}
+ethics = {:ethics, [labels: ["Noun"],  properties: %{"name" => "ethics"}, uuid: "019df311-16f0-7eea-a66f-a5c502551c6d"]}
+success = {:success, [labels: ["Noun"],  properties: %{"name" => "success"}, uuid: "019df312-63df-78e3-879e-a80545c7e750"]}
+agency = {:agency, [labels: ["Noun"],  properties: %{"name" => "agency"}, uuid: "019df314-42cc-74dd-aede-7e993f128502"]}
+control = {:control, [labels: ["Noun"],  properties: %{"name" => "control"}, uuid: "019df314-b4b8-7c0f-b95c-cac51233ea0a"]}
+engagement = {:engagement, [labels: ["Noun"],  properties: %{"name" => "engagment"}, uuid: "019df314-d3e8-7ac7-bc94-018877a62b24"]}
+protection = {:protection, [labels: ["Noun"],  properties: %{"name" => "protection"}, uuid: "019df316-9270-775b-b78a-afb76cb9da90"]}
+intent = {:intent, [labels: ["Noun"],  properties: %{"name" => "intent"}, uuid: "019df317-1c9d-7d84-afe8-0f356db70103"]}
+imperatives = {:imperatives, [labels: ["Noun"],  properties: %{"name" => "imperatives"}, uuid: "019df318-440a-7dcc-a35c-6f2b80d98428"]}
+stewardship = {:stewardship, [labels: ["Noun"],  properties: %{"name" => "stewardship"}, uuid: "019df318-698c-77d6-bc7b-ea041a019a7f"]}
+inheritance = {:inheritance, [labels: ["Noun"],  properties: %{"name" => "inheritance"}, uuid: "019df318-8f51-79d3-b0b7-913f68a552e4"]}
+adapting = {:adapting, [labels: ["Noun"],  properties: %{"name" => "adapting"}, uuid: "019df318-ae2b-72a7-923d-8604be81dab1"]}
+thinking = {:thinking, [labels: ["Noun"],  properties: %{"name" => "thinking"}, uuid: "019df318-fd19-7504-b119-9acdd6f23ae8"]}
+
+ethics_success_relationship = [from: :ethics, type: "VALUED_ABOVE", to: :success]
+agency_control_relationship = [from: :agency, type: "VALUED_ABOVE", to: :control]
+engagement_protection_relationship = [from: :engagement, type: "VALUED_ABOVE", to: :protection]
+intent_imperatives_relationship = [from: :intent, type: "VALUED_ABOVE", to: :imperatives]
+stewardship_inheritance_relationship = [from: :stewardship, type: "VALUED_ABOVE", to: :inheritance]
+adapting_thinking_relationship = [from: :adapting, type: "VALUED_ABOVE", to: :thinking]
+
+our_manifesto_artefact = Artefact.new(
+  title: "Our Manifesto",
+  description: "Our Manifesto helps us value one good thing over another.",
+  nodes: [me, ethics, success, agency, control, engagement, protection, intent, imperatives, stewardship, inheritance, adapting, thinking],
+  relationships: [
+    ethics_success_relationship,
+    agency_control_relationship,
+    engagement_protection_relationship,
+    intent_imperatives_relationship,
+    stewardship_inheritance_relationship,
+    adapting_thinking_relationship
+  ]
+)
+
+#update your path here as required
+path = "data/diffo-dev/"
+File.mkdir_p!(Path.dirname(path))
+File.write!(path <> "our_manifesto.bin", :erlang.term_to_binary(our_manifesto_artefact))
+
+ArtefactKino.new(our_manifesto_artefact)
+```
+
+These concept nouns need to be linked into the lore and/or integrated sub-trees.
