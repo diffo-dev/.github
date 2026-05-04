@@ -29,15 +29,19 @@ Read "Sand Talk" by Tyson Yunkaporta very slowly. Yarn about what you learn at e
 
 Explore the diffo-dev Lore livebook [![Run in Livebook](https://livebook.dev/badge/v1/blue.svg)](https://livebook.dev/run?url=https%3A%2F%2Fgithub.com%2Fdiffo-dev%2F.github%2Fblob%2Fmain%2Flivebook%2Flore.livemd)
 
-Explore the diffo-dev Agile livebook [![Run in Livebook](https://livebook.dev/badge/v1/blue.svg)](https://livebook.dev/run?url=https%3A%2F%2Fgithub.com%2Fdiffo-dev%2F.github%2Fblob%2Fmain%2Flivebook%2Fagile_manifesto.livemd)
-
 Connect with us if strangely attracted.
+
+## Current Knowing and Thinking
+
+Explore the diffo-dev Agile livebook [![Run in Livebook](https://livebook.dev/badge/v1/blue.svg)](https://livebook.dev/run?url=https%3A%2F%2Fgithub.com%2Fdiffo-dev%2F.github%2Fblob%2Fmain%2Flivebook%2Fagile.livemd)
+
+Explore the diffo-dev Manifesto livebook [![Run in Livebook](https://livebook.dev/badge/v1/blue.svg)](https://livebook.dev/run?url=https%3A%2F%2Fgithub.com%2Fdiffo-dev%2F.github%2Fblob%2Fmain%2Flivebook%2Fmanifesto.livemd)
 
 ## Licenses
 Diffo-dev offers all material produced with MIT license where possible, or otherwises acknowledges and continues lineage of material. 
 
 ## Diffo-dev Inc
-We are currently incorporating as a not-for-profit association in South Australia. More details to follow.
+We are currently incorporating as a not-for-profit association in South Australia and are working through objects, recognising council and yarning about the possibilities. More details to follow.
 
 ## Acknowledgement of Country
 Diffo-dev is based in the Adelaide Hills on land that is Kuarna, close to land that is Peramangk.
