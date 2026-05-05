@@ -3,6 +3,7 @@
 ```elixir
 Mix.install([
   {:artefact_kino, "~> 0.1.3"},
+  {:artefact, "~> 0.1.4, override: true}
   {:req, "~> 0.5"}
 ])
 ```
@@ -114,9 +115,10 @@ Our Shells and Manifesto shape our Association Knowing.
 
 ```elixir
 base_url = "https://raw.githubusercontent.com/diffo-dev/.github/main/data"
-
-our_manifesto_artefact = Req.get!("#{base_url}/our_manifesto.bin", decode_body: false).body
-  |> :erlang.binary_to_term()
+#binary = Req.get!("#{base_url}/our_manifesto.bin", raw: true).body
+path = "data/diffo-dev/"
+binary = File.read!(path <> "our_manifesto.bin")
+our_manifesto_artefact = :erlang.binary_to_term(binary)
 
 args = [
   nodes: [ 
@@ -157,7 +159,7 @@ args = [
 our_shells_manifesto_artefact =
   our_shells_artefact
   |> Artefact.combine(our_manifesto_artefact)
-  |> Artefact.merge(args, title: "Our Shells and Manifesto", 
+  |> Artefact.graft(args, title: "Our Shells and Manifesto", 
     description: "Our Shells and Manifesto shape our Association Knowing.")
 
 ArtefactKino.new(our_shells_manifesto_artefact)
@@ -166,17 +168,23 @@ ArtefactKino.new(our_shells_manifesto_artefact)
 
 ### Me Holistically Shells, Manifesto and Agile
 
-```elixir
-me_holistically_artefact = Req.get!("#{base_url}/me_holistically.bin", decode_body: false).body
-  |> :erlang.binary_to_term()
+Me knowing Shells, Manifesto and Agile
 
-my_agile_artefact = Req.get!("#{base_url}/my_agile.bin", decode_body: false).body
-  |> :erlang.binary_to_term()
+```elixir
+#binary = Req.get!("#{base_url}/me_holistically.bin", raw: true).body
+path = "data/diffo-dev/"
+binary = File.read!(path <> "me_holistically.bin")
+me_holistically_artefact = :erlang.binary_to_term(binary)
+
+#binary = Req.get!("#{base_url}/my_agile.bin", raw: true).body
+binary = File.read!(path <> "my_agile.bin")
+my_agile_artefact = :erlang.binary_to_term(binary)
 
 me_holistically_shells_manifesto_agile_artefact = 
-  |> Artefact.combine(our_shells_manifesto)
-  |> Artefact.combine(my_agile), title: "Me Holistically, Agile, Shells and Manifesto", 
-  description: "Me Knowing and Thinking about UsTwo" )
+  me_holistically_artefact
+  |> Artefact.combine(our_shells_manifesto_artefact)
+  |> Artefact.combine(my_agile_artefact, title: "Me Holistically, Agile, Shells and Manifesto", 
+  description: "Me Shells, Manifesto and Agile, about Beings and Stewardship")
 
 ArtefactKino.new(me_holistically_shells_manifesto_agile_artefact)
 ```
@@ -189,8 +197,8 @@ ArtefactKino.new(me_holistically_shells_manifesto_agile_artefact)
 path = "data/diffo-dev/"
 File.mkdir_p!(Path.dirname(path))
 File.write!(path <> "our_shells.bin", :erlang.term_to_binary(our_shells_artefact))
-File.write!(path <> "our_shells_manifesto.bin", :erlang.term_to_binary(our_shells_manifesto_artefact)))
-File.write!(path <> "me_holisitically_shells_manifesto_agile.bin", :erlang.term_to_binary(me_holistically_shells_manifesto_agile_artefact)))
+File.write!(path <> "our_shells_manifesto.bin", :erlang.term_to_binary(our_shells_manifesto_artefact))
+File.write!(path <> "me_holistically_shells_manifesto_agile.bin", :erlang.term_to_binary(me_holistically_shells_manifesto_agile_artefact))
 
 ```
 
