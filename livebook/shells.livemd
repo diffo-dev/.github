@@ -1,0 +1,164 @@
+# Diffo-Dev Shells
+
+```elixir
+Mix.install([
+  {:artefact_kino, "~> 0.1.3"},
+  {:req, "~> 0.5"}
+])
+```
+
+## Overview
+
+This livebook should be read after Knowing the diffo-dev Lore livebook [![Run in Livebook](https://livebook.dev/badge/v1/blue.svg)](https://livebook.dev/run?url=https%3A%2F%2Fgithub.com%2Fdiffo-dev%2F.github%2Fblob%2Fmain%2Flivebook%2Flore.livemd)
+
+This livebook uses Artefact and ArtefactKino from [Artefactory](https://github.com/diffo-dev/artefactory). ArtefactKino is a viewer.
+
+```elixir
+require Artefact
+defmodule Util do
+  def relabel({node_ref, node}, labels) do
+    {node_ref, Keyword.replace(node, :labels, labels)}
+  end
+end
+```
+
+## Shells
+
+According to our lore Relationships with Beings are core to our Knowing, the core of our identity. We also know maintaining healthy relationship is expensive, and that we can't be in right relationship with all beings simultaneously. We need a way of knowing and thinking about Beings and Relationships.
+
+### Atomic Model
+
+In the atomic model:
+
+* Shells concentrically encircle the nucleus
+* Shells potentially hold electrons
+* The number of shells is fixed
+* Shells have constraints on the electrons they must/may hold
+* Shells are generally filled with electrons from the inside out.
+* Electrons may swap from one adjacent shell to another with minimal or no impact to the atom
+* The exact shell an electron is in at any instant is probabilistic, although there is a likely shell
+* The atom is defined by the entire configurations
+* Not all potential configurations are possible and/or stable.
+
+This is an interesting model for Beings with a Mob and worth exploration.
+
+### Dunbar Layers
+
+We consider via [Robin Dunbar](https://en.wikipedia.org/wiki/Robin_Dunbar) that:
+
+* Approximate stable group size for a given degree of intimacy is correlated with the capacity and willingness to maintain relationships
+* This applies on arbitrary nested layers of intimacy
+
+## Artefact Representation (work in progress)
+
+### Our Shells
+
+```elixir
+
+# from lore
+me = {:me, [labels: ["Agent"],  properties: %{"name" => "me"}, uuid: "019ddb71-c70b-7b3e-83b1-58f4d0be2852"]}
+valuing = {:valuing, [labels: ["Knowing"], properties: %{"name" => "valuing"}, uuid: "019ddb7f-a43d-7525-bb4f-bfd32d110719"]}
+beings = {:beings, [labels: ["Valuing"], properties: %{"name" => "beings"}, uuid: "019de8bb-86b0-7acf-b1b8-40e96a3775a6"]}
+me_valuing_relationship = [from: :me, type: "VALUING", to: :valuing]
+valuing_beings_relationship = [from: :valuing, type: "CONSIDERING", to: :beings]
+
+# new
+shells = {:shells, [labels: ["Knowing"], properties: %{"name" => "shells"}, uuid: "019df584-d80b-798a-8b83-077273c43cea"]}
+council = {:council, [labels: ["Shell", "Beings"],  properties: %{"name" => "council"}, uuid: "019df523-66a7-7dca-93c6-ec9579e9408f"]}
+core = {:core, [labels: ["Shell", "Beings"],  properties: %{"name" => "core"}, uuid: "019df524-0bbf-7272-879a-20cba847223b"]}
+association = {:association, [labels: ["Shell", "Beings"],  properties: %{"name" => "association"}, uuid: "019df524-638e-7fba-832a-b0f216843232"]}
+allies = {:allies, [labels: ["Shell", "Beings"],  properties: %{"name" => "allies"}, uuid: "019df524-7b79-7085-83e4-382b6bd306ef"]}
+friends = {:friends, [labels: ["Shell", "Beings"],  properties: %{"name" => "friends"}, uuid: "019df524-91f8-75f5-9d9b-8c7e76d78903"]}
+acquaintances = {:acquaintances, [labels: ["Shell", "Beings"],  properties: %{"name" => "acquaintances"}, uuid: "019df524-a9b2-7b35-bf61-b8d9ddc80857"]}
+others = {:others, [labels: ["Shell", "Beings"],  properties: %{"name" => "others"}, uuid: "019df524-c156-77c0-b24f-7213733794e7"]}
+
+me_shells_relationship = [from: :me, type: "KNOWING", to: :shells]
+beings_shells_relationship = [from: :beings, type: "LIKELY_IN", to: :shells]
+council_shells_relationship = [from: :council, type: "INNERMOST", to: :shells]
+council_core_relationship = [from: :core, type: "INSIDE", to: :council]
+core_association_relationship = [from: :core, type: "INSIDE", to: :association]
+allies_association_relationship = [from: :allies, type: "OUTSIDE", to: :association]
+friends_allies_relationship = [from: :friends, type: "OUTSIDE", to: :allies]
+acquaintances_friends_relationship = [from: :acquaintances, type: "OUTSIDE", to: :friends]
+others_acquaintances_relationship = [from: :others, type: "OUTSIDE", to: :acquaintances]
+me_association_relationship = [from: :me, type: "BELONGING", to: :association]
+
+our_shells_artefact = Artefact.new(
+  title: "Our Shells",
+  description: "Our Shells help us value Beings.",
+  nodes: [me, valuing, beings, shells, council, core, association, allies, friends, acquaintances, others],
+  relationships: [
+    me_valuing_relationship, 
+    valuing_beings_relationship, 
+    me_shells_relationship,
+    beings_shells_relationship,
+    council_shells_relationship,
+    council_core_relationship,
+    core_association_relationship,
+    allies_association_relationship,
+    friends_allies_relationship,
+    acquaintances_friends_relationship,
+    others_acquaintances_relationship,
+    me_association_relationship
+  ]
+)
+
+ArtefactKino.new(our_shells_artefact)
+```
+
+### Our deeper Shells and Manifesto
+
+Our shells relate to key concepts in our manifesto.
+
+todo - Artefact api for relating
+
+```elixir
+base_url = "https://raw.githubusercontent.com/diffo-dev/.github/main/data"
+
+our_manifesto_artefact = Req.get!("#{base_url}/our_manifesto.bin", decode_body: false).body
+  |> :erlang.binary_to_term()
+
+our_shells_and_manifesto_artefact =
+  our_shells_artefact
+  |> Artefact.combine(our_manifesto_artefact, title: "Our deeper Shells and Manifesto", 
+    description: "Our Shells and Manifesto concepts relate by KNOWING")
+
+# do cross_links and make new artefact
+# council_ethics_relationship KNOWING, 
+# council_success_relationship KNOWING
+# core_agency_relationship KNOWING
+# core_control_relationship KNOWING
+# core_intent_relationship KNOWING
+# core_imperatives_relationship KNOWING
+# association_protection_relationship KNOWING
+# association_engagement_relationship KNOWING
+# association_thinking_relationship KNOWING
+# association_adapting_relationship KNOWING
+
+ArtefactKino.new(our_shells_and_manifesto_artefact)
+
+```
+
+These concept nouns need to be linked into the lore and/or integrated sub-trees.
+
+<!-- livebook:{"break_markdown":true} -->
+
+### Me Holistically Shells
+
+todo
+
+### Persistence
+
+```elixir
+
+#update your path here as required
+path = "data/diffo-dev/"
+File.mkdir_p!(Path.dirname(path))
+File.write!(path <> "our_shells.bin", :erlang.term_to_binary(our_shells_artefact))
+File.write!(path <> "our_shells_and_manifesto.bin", :erlang.term_to_binary(our_shells_and_manifesto_artefact)))
+```
+
+## Acknowledgements
+
+Please see [README](https://github.com/diffo-dev/.github/blob/main/README.md)
+We also value [Robin Dunbar](https://en.wikipedia.org/wiki/Robin_Dunbar) and his knowing and thinking on [Dunbar's Number] (https://en.wikipedia.org/wiki/Dunbar%27s_number) and Dunbar layers.
