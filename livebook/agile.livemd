@@ -1,4 +1,4 @@
-# Diffo-Dev Considers Agile
+# Diffo-Dev Agile
 
 ```elixir
 Mix.install([
@@ -186,6 +186,11 @@ my_agile_artefact =
   |> Artefact.combine(me_valuing_agile_4_artefact, title: "My Agile", description: "My valuing based on My Agile" )
 
 ArtefactKino.new(my_agile_artefact)
+
+#update your path here as required
+path = "data/diffo-dev/"
+File.mkdir_p!(Path.dirname(path))
+File.write!(path <> "my_agile.bin", :erlang.term_to_binary(my_agile_artefact))
 ```
 
 ## Me Holistically Agile
@@ -203,8 +208,6 @@ me_holistically_agile_artefact =
 File.mkdir_p!(Path.dirname(path))
 File.write!(path <> "me_holistically_agile.bin", :erlang.term_to_binary(me_holistically_agile_artefact))
 ArtefactKino.new(me_holistically_agile_artefact)
-
-
 ```
 
 ## Summary

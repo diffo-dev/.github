@@ -53,6 +53,8 @@ We consider via [Robin Dunbar](https://en.wikipedia.org/wiki/Robin_Dunbar) that:
 
 ### Our Shells
 
+Our Shells help us value Beings.
+
 ```elixir
 
 # from lore
@@ -106,11 +108,9 @@ our_shells_artefact = Artefact.new(
 ArtefactKino.new(our_shells_artefact)
 ```
 
-### Our deeper Shells and Manifesto
+### Our Shells and Manifesto
 
-Our shells relate to key concepts in our manifesto.
-
-todo - Artefact api for relating
+Our Shells and Manifesto shape our Association Knowing.
 
 ```elixir
 base_url = "https://raw.githubusercontent.com/diffo-dev/.github/main/data"
@@ -118,36 +118,70 @@ base_url = "https://raw.githubusercontent.com/diffo-dev/.github/main/data"
 our_manifesto_artefact = Req.get!("#{base_url}/our_manifesto.bin", decode_body: false).body
   |> :erlang.binary_to_term()
 
-our_shells_and_manifesto_artefact =
+args = [
+  nodes: [ 
+    {:me, [uuid: "019ddb71-c70b-7b3e-83b1-58f4d0be2852"]},
+    {:council, [uuid: "019df523-66a7-7dca-93c6-ec9579e9408f"]},
+    {:core, [uuid: "019df524-0bbf-7272-879a-20cba847223b"]},
+    {:association, [uuid: "019df524-638e-7fba-832a-b0f216843232"]},
+    {:ethics, [uuid: "019df311-16f0-7eea-a66f-a5c502551c6d"]},
+    {:success, [uuid: "019df312-63df-78e3-879e-a80545c7e750"]},
+    {:agency, [uuid: "019df314-42cc-74dd-aede-7e993f128502"]},
+    {:control, [uuid: "019df314-b4b8-7c0f-b95c-cac51233ea0a"]},
+    {:engagement, [uuid: "019df314-d3e8-7ac7-bc94-018877a62b24"]},
+    {:protection, [uuid: "019df316-9270-775b-b78a-afb76cb9da90"]},
+    {:intent, [uuid: "019df317-1c9d-7d84-afe8-0f356db70103"]},
+    {:imperatives, [uuid: "019df318-440a-7dcc-a35c-6f2b80d98428"]},
+    {:stewardship, [labels: ["Knowing"], uuid: "019df318-698c-77d6-bc7b-ea041a019a7f"]},
+    {:inheritance, [uuid: "019df318-8f51-79d3-b0b7-913f68a552e4"]},
+    {:adapting, [uuid: "019df318-ae2b-72a7-923d-8604be81dab1"]},
+    {:thinking, [uuid: "019df318-fd19-7504-b119-9acdd6f23ae8"]}
+  ],
+  relationships: [
+    [from: :me, type: "KNOWING", to: :stewardship],
+    [from: :council, type: "KNOWING", to: :ethics],
+    [from: :council, type: "KNOWING", to: :protection],
+    [from: :council, type: "KNOWING", to: :inheritance],
+    [from: :core, type: "KNOWING", to: :agency],
+    [from: :core, type: "KNOWING", to: :control],
+    [from: :core, type: "KNOWING", to: :intent],
+    [from: :core, type: "KNOWING", to: :imperatives],
+    [from: :association, type: "KNOWING", to: :engagement],
+    [from: :association, type: "KNOWING", to: :stewardship],
+    [from: :association, type: "KNOWING", to: :thinking],
+    [from: :association, type: "KNOWING", to: :adapting],
+    [from: :association, type: "KNOWING", to: :success]
+  ]
+]
+
+our_shells_manifesto_artefact =
   our_shells_artefact
-  |> Artefact.combine(our_manifesto_artefact, title: "Our deeper Shells and Manifesto", 
-    description: "Our Shells and Manifesto concepts relate by KNOWING")
+  |> Artefact.combine(our_manifesto_artefact)
+  |> Artefact.merge(args, title: "Our Shells and Manifesto", 
+    description: "Our Shells and Manifesto shape our Association Knowing.")
 
-# do cross_links and make new artefact
-# council_ethics_relationship KNOWING, 
-# council_success_relationship KNOWING
-# core_agency_relationship KNOWING
-# core_control_relationship KNOWING
-# core_intent_relationship KNOWING
-# core_imperatives_relationship KNOWING
-# association_protection_relationship KNOWING
-# association_engagement_relationship KNOWING
-# association_thinking_relationship KNOWING
-# association_adapting_relationship KNOWING
-
-ArtefactKino.new(our_shells_and_manifesto_artefact)
+ArtefactKino.new(our_shells_manifesto_artefact)
 
 ```
 
-These concept nouns need to be linked into the lore and/or integrated sub-trees.
+### Me Holistically Shells, Manifesto and Agile
 
-<!-- livebook:{"break_markdown":true} -->
+```elixir
+me_holistically_artefact = Req.get!("#{base_url}/me_holistically.bin", decode_body: false).body
+  |> :erlang.binary_to_term()
 
-### Me Holistically Shells
+my_agile_artefact = Req.get!("#{base_url}/my_agile.bin", decode_body: false).body
+  |> :erlang.binary_to_term()
 
-todo
+me_holistically_shells_manifesto_agile_artefact = 
+  |> Artefact.combine(our_shells_manifesto)
+  |> Artefact.combine(my_agile), title: "Me Holistically, Agile, Shells and Manifesto", 
+  description: "Me Knowing and Thinking about UsTwo" )
 
-### Persistence
+ArtefactKino.new(me_holistically_shells_manifesto_agile_artefact)
+```
+
+## Persistence
 
 ```elixir
 
@@ -155,10 +189,13 @@ todo
 path = "data/diffo-dev/"
 File.mkdir_p!(Path.dirname(path))
 File.write!(path <> "our_shells.bin", :erlang.term_to_binary(our_shells_artefact))
-File.write!(path <> "our_shells_and_manifesto.bin", :erlang.term_to_binary(our_shells_and_manifesto_artefact)))
+File.write!(path <> "our_shells_manifesto.bin", :erlang.term_to_binary(our_shells_manifesto_artefact)))
+File.write!(path <> "me_holisitically_shells_manifesto_agile.bin", :erlang.term_to_binary(me_holistically_shells_manifesto_agile_artefact)))
+
 ```
 
 ## Acknowledgements
 
 Please see [README](https://github.com/diffo-dev/.github/blob/main/README.md)
-We also value [Robin Dunbar](https://en.wikipedia.org/wiki/Robin_Dunbar) and his knowing and thinking on [Dunbar's Number] (https://en.wikipedia.org/wiki/Dunbar%27s_number) and Dunbar layers.
+
+We also value [Robin Dunbar](https://en.wikipedia.org/wiki/Robin_Dunbar) and his knowing and thinking on [Dunbar's Number](https://en.wikipedia.org/wiki/Dunbar%27s_number) and Dunbar layers.
