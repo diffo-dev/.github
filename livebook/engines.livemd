@@ -205,9 +205,9 @@ My Pattern Mind is Realized Mathematically
 my_pattern_mind_artefact = Util.load(path, "thinking/my_pattern_mind")
 
 maths_engine = {:maths_engine, [labels: ["Engine"], properties: %{"name" => "maths_engine"}, 
-      uuid: ""]}
+      uuid: "019e0721-30f2-7327-9b26-69f4eff81610"]}
 maths_artefact = {:maths_artefact, [labels: ["Artefact"], properties: %{"name" => "maths_artefact"}, 
-      uuid: ""]}
+      uuid: "019e0721-b82f-7063-921d-a4ecb39975c5"]}
 
 args = [
   nodes: [
@@ -288,9 +288,9 @@ my_mind_holistically_artefact =
   |> Artefact.combine(my_ancestor_mind_realized_artefact)
   |> Artefact.combine(my_story_mind_realized_artefact)
   |> Artefact.combine(my_pattern_mind_realized_artefact)
-  #|> Artefact.combine(my_dreaming_mind_realized_artefact)
-  #title: "My Mind is Realized Holistically", 
-  #description: "My Mind is Realized Holistically with Engines fluent in Artefacts.")
+  |> Artefact.combine(my_dreaming_mind_realized_artefact,
+      title: "My Mind is Realized Holistically", 
+      description: "My Mind is Realized Holistically with Engines fluent in Artefacts.")
 
 ArtefactKino.new(my_mind_holistically_artefact)
 ```
