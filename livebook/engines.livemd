@@ -1,0 +1,319 @@
+# Diffo-Dev Engines
+
+```elixir
+Mix.install([
+  {:artefact_kino, "~> 0.1.4"},
+  {:req, "~> 0.5"}
+])
+```
+
+## Overview
+
+This livebook should be read after Knowing the diffo-dev Lore livebook [![Run in Livebook](https://livebook.dev/badge/v1/blue.svg)](https://livebook.dev/run?url=https%3A%2F%2Fgithub.com%2Fdiffo-dev%2F.github%2Fblob%2Fmain%2Flivebook%2Flore.livemd)
+
+This livebook uses Artefact and ArtefactKino from [Artefactory](https://github.com/diffo-dev/artefactory). ArtefactKino is a viewer.
+
+```elixir
+require Artefact
+defmodule Util do
+  def relabel({node_ref, node}, labels) do
+    {node_ref, Keyword.replace(node, :labels, labels)}
+  end
+
+  def load(nil, name) do
+    binary = Req.get!("https://raw.githubusercontent.com/diffo-dev/.github/main/data/#{name}.bin", raw: true).body
+    :erlang.binary_to_term(binary)
+  end
+
+  def load(path, name) do
+    binary = File.read!("#{path}/#{name}.bin")
+    :erlang.binary_to_term(binary)
+  end
+end
+
+
+# path = "git/diffo-dev.github/data/" # local file base path
+# path = nil # to load from repository
+path = "git/diffo-dev.github/data"
+```
+
+## Engines
+
+According to our lore we do Thinking with Minds of different kind. Minds may have Engines which have a native Artefact form.
+
+### Engines Model
+
+In the engine model:
+
+* An engine is continuously engineered
+* Each engine has a lifecycle
+* An engine does work
+* An engine consumes resources, and may produce them
+* Some engines are better than others for different work
+* The universe of engines is infinite
+* An engine is an expression of ingenuity
+
+In our case of engine/s implementing Mind, the work of the engine is to transform artefacts. We'll explore different minds, different engines and their native artefact forms.
+
+## Artefact Representation (work in progress)
+
+### My Mind Realized
+
+My Mind is Realised by Engines.
+
+```elixir
+my_mind_artefact = Util.load(path, "my_mind")
+
+engine = {:engine, [labels: ["Engine"], properties: %{"name" => "engine"}, uuid: "019e04de-8215-7b7c-acb6-8ef0af6f59a7"]}
+mind_engine_relationship = [from: :mind, type: "OPERATES", to: :engine]
+engine_artefact_relationship = [from: :engine, type: "PROCESSES", to: :artefact]
+
+args = [
+  nodes: [
+    {:mind, [uuid: "019ddb71-ed63-73e3-adeb-328290e8294e"]},
+    {:artefact, [uuid: "019e04dd-182f-7f28-acb8-8cbf06a6520d"]},
+    engine,
+  ],
+  relationships: [
+    mind_engine_relationship ,
+    engine_artefact_relationship
+  ]
+]
+   
+my_mind_realized_artefact =
+  my_mind_artefact
+  |> Artefact.graft(args, title: "My Mind Realized",  description: "My Mind is Realised by Engines.")
+
+ArtefactKino.new(my_mind_realized_artefact)
+```
+
+### My Kinship Mind Realized
+
+My Kinship Mind is Realized Graphically
+
+```elixir
+my_kinship_mind_artefact = Util.load(path, "thinking/my_kinship_mind")
+
+graph_engine = {:graph_engine, [labels: ["Engine"], properties: %{"name" => "graph_engine"}, 
+      uuid: "019e04d6-23af-7c69-b8b0-6942b22a0af8"]}
+graph_artefact = {:graph_artefact, [labels: ["Artefact"], properties: %{"name" => "graph_artefact"}, 
+      uuid: "019e04e0-61f2-7b60-ab36-39325064facb"]}
+
+args = [
+  nodes: [
+    {:artefact, [uuid: "019e04dd-182f-7f28-acb8-8cbf06a6520d"]},
+    engine,
+    graph_artefact,
+    graph_engine
+  ],
+  relationships: [
+    [from: :artefact, type: "REALIZED_BY", to: :graph_artefact],
+    [from: :engine, type: "REALIZED_BY", to: :graph_engine],
+    [from: :graph_engine, type: "FLUENT_IN", to: :graph_artefact],
+  ]
+  
+]
+
+my_kinship_mind_realized_artefact =
+  my_mind_realized_artefact
+  |> Artefact.combine(my_kinship_mind_artefact)
+  |> Artefact.graft(args, title: "My Kinship Mind Realized", 
+    description: "My Kinship Mind is Realized Graphically.")
+
+ArtefactKino.new(my_kinship_mind_realized_artefact)
+```
+
+### My Ancestor Mind Realized
+
+My Ancestor Mind is Realized Logically
+
+```elixir
+my_ancestor_mind_artefact = Util.load(path, "thinking/my_ancestor_mind")
+
+logic_engine = {:logic_engine, [labels: ["Engine"], properties: %{"name" => "logic_engine"}, 
+      uuid: "019e0616-3de5-73c3-af81-cdbd88554fa4"]}
+logic_artefact = {:logic_artefact, [labels: ["Artefact"], properties: %{"name" => "logic_artefact"}, 
+      uuid: "019e0616-7054-7b09-b5ab-8225a6612260"]}
+
+args = [
+  nodes: [
+    {:artefact, [uuid: "019e04dd-182f-7f28-acb8-8cbf06a6520d"]},
+    engine,
+    logic_artefact,
+    logic_engine
+  ],
+  relationships: [
+    
+    [from: :artefact, type: "REALIZED_BY", to: :logic_artefact],
+    [from: :engine, type: "REALIZED_BY", to: :logic_engine],
+    [from: :logic_engine, type: "FLUENT_IN", to: :logic_artefact],
+  ]
+  
+]
+
+my_ancestor_mind_realized_artefact =
+  my_mind_realized_artefact
+  |> Artefact.combine(my_ancestor_mind_artefact)
+  |> Artefact.graft(args, title: "My Ancestor Mind Realized", 
+    description: "My Ancestor Mind is Realized Logically.")
+
+ArtefactKino.new(my_ancestor_mind_realized_artefact)
+```
+
+### My Story Mind Realized
+
+My Story Mind is Realized Textually
+
+```elixir
+my_story_mind_artefact = Util.load(path, "thinking/my_story_mind")
+
+text_engine = {:text_engine, [labels: ["Engine"], properties: %{"name" => "text_engine"}, 
+      uuid: "019e061c-bfbb-71a9-8ad1-8b03c3f69cd6"]}
+text_artefact = {:text_artefact, [labels: ["Artefact"], properties: %{"name" => "text_artefact"}, 
+      uuid: "019e061c-da9a-7a31-b5b7-5eabe049421c"]}
+
+args = [
+  nodes: [
+    {:artefact, [uuid: "019e04dd-182f-7f28-acb8-8cbf06a6520d"]},
+    engine,
+    text_artefact,
+    text_engine
+  ],
+  relationships: [
+    
+    [from: :artefact, type: "REALIZED_BY", to: :text_artefact],
+    [from: :engine, type: "REALIZED_BY", to: :text_engine],
+    [from: :text_engine, type: "FLUENT_IN", to: :text_artefact],
+  ]
+  
+]
+
+my_story_mind_realized_artefact =
+  my_mind_realized_artefact
+  |> Artefact.combine(my_story_mind_artefact)
+  |> Artefact.graft(args, title: "My Story Mind Realized", 
+    description: "My Story Mind is Realized Textually.")
+
+ArtefactKino.new(my_story_mind_realized_artefact)
+```
+
+### My Pattern Mind Realized
+
+My Pattern Mind is Realized Mathematically
+
+```elixir
+my_pattern_mind_artefact = Util.load(path, "thinking/my_pattern_mind")
+
+maths_engine = {:maths_engine, [labels: ["Engine"], properties: %{"name" => "maths_engine"}, 
+      uuid: "019e0721-30f2-7327-9b26-69f4eff81610"]}
+maths_artefact = {:maths_artefact, [labels: ["Artefact"], properties: %{"name" => "maths_artefact"}, 
+      uuid: "019e0721-b82f-7063-921d-a4ecb39975c5"]}
+
+args = [
+  nodes: [
+    {:artefact, [uuid: "019e04dd-182f-7f28-acb8-8cbf06a6520d"]},
+    engine,
+    maths_artefact,
+    maths_engine
+  ],
+  relationships: [
+    
+    [from: :artefact, type: "REALIZED_BY", to: :maths_artefact],
+    [from: :engine, type: "REALIZED_BY", to: :maths_engine],
+    [from: :maths_engine, type: "FLUENT_IN", to: :maths_artefact],
+  ]
+]
+
+my_pattern_mind_realized_artefact =
+  my_mind_realized_artefact
+  |> Artefact.combine(my_pattern_mind_artefact)
+  |> Artefact.graft(args, title: "My Pattern Mind Realized", 
+    description: "My Pattern Mind is Realized Mathematically.")
+
+ArtefactKino.new(my_pattern_mind_realized_artefact)
+```
+
+### My Dreaming Mind Realized
+
+My Dreaming Mind is Realized Holistically
+
+```elixir
+my_dreaming_mind_artefact = Util.load(path, "thinking/my_dreaming_mind")
+
+dream_engine = {:dream_engine, [labels: ["Engine"], properties: %{"name" => "dream_engine"}, 
+      uuid: "019e063e-faee-72d5-aafb-d9c5fa06261c"]}
+dream_artefact = {:dream_artefact, [labels: ["Artefact"], properties: %{"name" => "dream_artefact"}, 
+      uuid: "019e063f-59de-7633-86a4-fd18dfa33dec"]}
+
+args = [
+  nodes: [
+    {:artefact, [uuid: "019e04dd-182f-7f28-acb8-8cbf06a6520d"]},
+    engine,
+    graph_artefact,
+    logic_artefact,
+    text_artefact,
+    maths_artefact,
+    dream_artefact,
+    dream_engine
+  ],
+  relationships: [
+    
+    [from: :artefact, type: "REALIZED_BY", to: :dream_artefact],
+    [from: :engine, type: "REALIZED_BY", to: :dream_engine],
+    [from: :dream_engine, type: "FLUENT_IN", to: :graph_artefact],
+    [from: :dream_engine, type: "FLUENT_IN", to: :logic_artefact],
+    [from: :dream_engine, type: "FLUENT_IN", to: :text_artefact],
+    [from: :dream_engine, type: "FLUENT_IN", to: :maths_artefact],
+    [from: :dream_engine, type: "FLUENT_IN", to: :dream_artefact],
+  ]
+]
+
+my_dreaming_mind_realized_artefact =
+  my_mind_realized_artefact
+  |> Artefact.combine(my_dreaming_mind_artefact)
+  |> Artefact.graft(args, title: "My Dreaming Mind Realized", 
+    description: "My Dreaming Mind is Realized Holistically.")
+
+ArtefactKino.new(my_dreaming_mind_realized_artefact)
+```
+
+### My Mind Holistically
+
+My Mind is Realized Holistically with Engines fluent in Artefacts.
+
+```elixir
+my_mind_holistically_artefact = 
+  my_mind_realized_artefact
+  |> Artefact.combine(my_kinship_mind_realized_artefact)
+  |> Artefact.combine(my_ancestor_mind_realized_artefact)
+  |> Artefact.combine(my_story_mind_realized_artefact)
+  |> Artefact.combine(my_pattern_mind_realized_artefact)
+  |> Artefact.combine(my_dreaming_mind_realized_artefact,
+      title: "My Mind is Realized Holistically", 
+      description: "My Mind is Realized Holistically with Engines fluent in Artefacts.")
+
+ArtefactKino.new(my_mind_holistically_artefact)
+```
+
+## Persistence
+
+```elixir
+if path do
+  thinking_path = path <> "/thinking/"
+  File.mkdir_p!(Path.dirname(thinking_path))
+  File.write!(thinking_path <> "my_mind_realized.bin", :erlang.term_to_binary(my_mind_realized_artefact))
+  File.write!(thinking_path <> "my_kindship_mind_realized.bin", :erlang.term_to_binary(my_kinship_mind_realized_artefact))
+  File.write!(thinking_path <> "my_ancestor_mind_realized.bin", :erlang.term_to_binary(my_ancestor_mind_realized_artefact))
+  File.write!(thinking_path <> "my_story_mind_realized.bin", :erlang.term_to_binary(my_story_mind_realized_artefact))
+  File.write!(thinking_path <> "my_pattern_mind_realized.bin", :erlang.term_to_binary(my_pattern_mind_realized_artefact))
+  File.write!(thinking_path <> "my_dreaming_mind_realized.bin", :erlang.term_to_binary(my_dreaming_mind_realized_artefact))
+  File.write!(thinking_path <> "my_mind_holistically.bin", :erlang.term_to_binary(my_mind_holistically_artefact))
+end
+
+```
+
+## Acknowledgements
+
+Please see [README](https://github.com/diffo-dev/.github/blob/main/README.md)
+
+We also value [Robin Dunbar](https://en.wikipedia.org/wiki/Robin_Dunbar) and his knowing and thinking on [Dunbar's Number](https://en.wikipedia.org/wiki/Dunbar%27s_number) and Dunbar layers.

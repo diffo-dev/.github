@@ -24,6 +24,8 @@ defmodule Util do
     {node_ref, Keyword.replace(node, :labels, labels)}
   end
 end
+#update your path here as required
+path = "git/diffo-dev.github/data/"
 ```
 
 ## Me
@@ -46,27 +48,34 @@ me_artefact = Artefact.new(
 ArtefactKino.new(me_artefact)
 ```
 
-### My Artefactory
+### My Mind
 
-My Artefactory helps Me Knowing and Thinking
+My Mind helps with Knowing and Thinking
 
 ```elixir
+mind = {:mind, [labels: ["Mind"], properties: %{"name" => "mind"}, uuid: "019ddb71-ed63-73e3-adeb-328290e8294e"]}
+artefact = {:artefact, [labels: ["Artefact"], properties: %{"name" => "artefact"}, uuid: "019e04dd-182f-7f28-acb8-8cbf06a6520d"]}
 my_artefactory = {:my_artefactory, [labels: ["Me"], properties: %{"name" => "my_artefactory"},
   uuid: "019df182-0cb0-7726-8300-e3bf2ec2d36e"]}
+
 me_my_artefactory_relationship = [from: :me, type: "UTILIZES", to: :my_artefactory]
+thinking_mind_relationship = [from: :thinking, type: "THINKING", to: :mind]
+my_artefactory_artefact_relationship = [from: :my_artefactory, type: "STORES", to: :artefact]
 
-my_artefactory_artefact = Artefact.new(
-  title: "My Artefactory",
-  description: "My Artefactory helps Me Knowing and Thinking.",
-  nodes: [me, my_artefactory, knowing, thinking],
+args = [
+  nodes: [me, thinking, mind, artefact, my_artefactory],
   relationships: [
-    me_knowing_relationship,
-    me_thinking_relationship,
-    me_my_artefactory_relationship
+    me_my_artefactory_relationship,
+    thinking_mind_relationship,
+    my_artefactory_artefact_relationship
   ]
-)
+]
 
-ArtefactKino.new(my_artefactory_artefact)
+my_mind_artefact =
+  me_artefact
+  |> Artefact.graft(args, title: "My Mind",  description: "My Mind helps with Knowing and Thinking.")
+
+ArtefactKino.new(my_mind_artefact)
 ```
 
 ## Me and You
@@ -368,7 +377,6 @@ ArtefactKino.new(my_knowing_holistically_artefact)
 My Thinking is using My Mind. Mind is Kinship, Ancestor, Story, Pattern and Dreaming Mind.
 
 ```elixir
-mind = {:mind, [labels: ["Mind"], properties: %{"name" => "mind"}, uuid: "019ddb71-ed63-73e3-adeb-328290e8294e"]}
 kinship_mind = {:kinship_mind, [labels: ["Mind"], properties: %{"name" => "kinship_mind"},
   uuid: "019ddbf7-867f-73a7-aea6-a3080b6b9515"]}
 ancestor_mind = {:ancestor_mind, [labels: ["Mind"], properties: %{"name" => "ancestor_mind"},
@@ -380,7 +388,6 @@ pattern_mind = {:pattern_mind, [labels: ["Mind"], properties: %{"name" => "patte
 dreaming_mind = {:dreaming_mind, [labels: ["Mind"], properties: %{"name" => "dreaming_mind"},
   uuid: "019ddbf7-fb43-708e-9903-343b1a664ea9"]}
 
-thinking_mind_relationship = [from: :thinking, type: "THINKING", to: :mind]
 mind_kinship_mind_relationship = [from: :mind, type: "THINKING", to: :kinship_mind]
 mind_ancestor_mind_relationship = [from: :mind, type: "THINKING", to: :ancestor_mind]
 mind_story_mind_relationship = [from: :mind, type: "THINKING", to: :story_mind]
@@ -572,9 +579,8 @@ Me Knowing and Thinking about UsTwo.
 
 ```elixir
 me_holistically_artefact = 
-  my_artefactory_artefact
+  my_mind_artefact
   |> Artefact.combine(me_and_you_relating_artefact)
-  |> Artefact.combine(my_artefactory_artefact)
   |> Artefact.combine(my_knowing_and_thinking_artefact, title: "Me Holistically", 
   description: "Me Knowing and Thinking about UsTwo" )
 
@@ -594,14 +600,29 @@ Lastly an Artefact is an Elixir struct. So if you want to really keep one (outsi
 All these forms require Artefact module to reconstruct an Artefact.
 
 ```elixir
-require Artefact
-#update your path here as required
-path = "data/diffo-dev/"
 File.mkdir_p!(Path.dirname(path))
-
 File.write!(path <> "me.bin", :erlang.term_to_binary(me_artefact))
-File.write!(path <> "my.artefactory", :erlang.term_to_binary(my_artefactory_artefact))
+File.write!(path <> "my_mind.bin", :erlang.term_to_binary(my_mind_artefact))
 File.write!(path <> "me_and_you.bin", :erlang.term_to_binary(me_and_you_artefact))
+
+knowing_path = path <> "knowing/"
+File.mkdir_p!(Path.dirname(knowing_path))
+File.write!(knowing_path <> "my_knowing.bin", :erlang.term_to_binary(my_knowing_artefact))
+File.write!(knowing_path <> "my_valuing.bin", :erlang.term_to_binary(my_valuing_artefact))
+File.write!(knowing_path <> "my_deeper_being.bin", :erlang.term_to_binary(my_deeper_being_artefact))
+File.write!(knowing_path <> "my_deeper_knowing.bin", :erlang.term_to_binary(my_deeper_knowing_artefact))
+File.write!(knowing_path <> "my_doing.bin", :erlang.term_to_binary(my_doing_artefact))
+File.write!(knowing_path <> "my_deeper_doing.bin", :erlang.term_to_binary(my_deeper_doing_artefact))
+
+thinking_path = path <> "thinking/"
+File.mkdir_p!(Path.dirname(thinking_path))
+File.write!(thinking_path <> "my_thinking.bin", :erlang.term_to_binary(my_thinking_artefact))
+File.write!(thinking_path <> "my_kinship_mind.bin", :erlang.term_to_binary(my_kinship_mind_artefact))
+File.write!(thinking_path <> "my_ancestor_mind.bin", :erlang.term_to_binary(my_ancestor_mind_artefact))
+File.write!(thinking_path <> "my_story_mind.bin", :erlang.term_to_binary(my_story_mind_artefact))
+File.write!(thinking_path <> "my_pattern_mind.bin", :erlang.term_to_binary(my_pattern_mind_artefact))
+File.write!(thinking_path <> "my_dreaming_mind.bin", :erlang.term_to_binary(my_dreaming_mind_artefact))
+
 File.write!(path <> "my_knowing_and_thinking.bin", :erlang.term_to_binary(my_knowing_and_thinking_artefact))
 File.write!(path <> "me_holistically.bin", :erlang.term_to_binary(me_holistically_artefact))
 ```
